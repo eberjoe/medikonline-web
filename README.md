@@ -1,3 +1,15 @@
+# Web client do projeto HERO
+
+Este repositório contém a parte do web *client* para o projeto **HERO**, uma aplicação que conecta voluntários a ONGs.
+
+1. A aplicação web foi inicializada com o seguinte comando:
+
+```npx create-react-app web```
+
+2. A aplicação roda com o seguinte comando:
+
+```npm start```
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
