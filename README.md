@@ -14,6 +14,14 @@ Este repositório contém a parte do web *client* para o projeto **HERO**, uma a
 
 ```npm install react-icons```
 
+4. Os ícones utilizados podem ser pesquisados em:
+
+https://feathericons.com/
+
+4. A biblioteca de rotas foi instalada com o seguinte comando:
+
+```npm install react-router-dom```
+
 # Other info
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
