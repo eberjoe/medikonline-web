@@ -1,8 +1,22 @@
 import React from 'react';
+import Header from './Header';
 
 function App() {
+  let counter = 0;
+
+  function increment(){
+    counter += 1;
+    console.log(counter);
+  }
   return (
-    <h1>HELLO MICKEY</h1>
+    <div>
+      <Header>
+        Counter: {counter}
+      </Header>
+      <button onClick={increment}>
+        Incrementar
+      </button>
+    </div>
   );
 }
 
