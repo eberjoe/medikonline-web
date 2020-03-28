@@ -6,7 +6,7 @@ import {FiArrowLeft} from 'react-icons/fi'
 
 
 export default function Register() {
-    return(
+    return (
         <div className="register-container">
             <div className="content">
                 <section>

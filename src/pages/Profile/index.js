@@ -7,12 +7,12 @@ import './styles.css';
 import logoImg from '../../assets/logo.svg';
 
 export default function Profile() {
-    return(
+    return (
         <div className="profile-container">
             <header>
                 <img src={logoImg} alt="Be The Hero"/>
                 <span>Bem vinda, JAM</span>
-                <Link className="button" to="/incidents/new">Cadastrar novo caso</Link>
+                <Link className="button" to="/incident/new">Cadastrar novo caso</Link>
                 <button type="button">
                     <FiPower size={18} color="#e02041" />
                 </button>
