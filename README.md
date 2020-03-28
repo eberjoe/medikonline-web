@@ -10,6 +10,12 @@ Este repositório contém a parte do web *client* para o projeto **HERO**, uma a
 
 ```npm start```
 
+3. A biblioteca de ícones foi instalada com o seguinte comando:
+
+```npm install react-icons```
+
+# Other info
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
