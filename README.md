@@ -1,6 +1,8 @@
 # Web client do projeto HERO
 
-Este repositório contém a parte do web *client* para o projeto **HERO**, uma aplicação que conecta voluntários a ONGs.
+Este repositório contém a parte do *web client* para o projeto **HERO**, uma aplicação que conecta voluntários a ONGs.
+
+## Montagem do ambiente de desenvolvimento
 
 1. A aplicação web foi inicializada com o seguinte comando:
 
