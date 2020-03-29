@@ -18,9 +18,13 @@ Este repositório contém a parte do web *client* para o projeto **HERO**, uma a
 
 https://feathericons.com/
 
-4. A biblioteca de rotas foi instalada com o seguinte comando:
+5. A biblioteca de rotas foi instalada com o seguinte comando:
 
 ```npm install react-router-dom```
+
+6. O *http client* foi instalado com o seguinte comando:
+
+```npm install axios```
 
 # Other info
 
