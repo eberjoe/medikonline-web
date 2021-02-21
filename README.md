@@ -1,6 +1,6 @@
-# Web client do projeto HERO
+# Web client do projeto MEDIKONLINE
 
-Este repositório contém a parte do *web client* em **ReactJS** para o projeto **HERO**, uma aplicação que conecta voluntários a ONGs.
+Este repositório contém a parte do *web client* em **ReactJS** para o projeto **MEDIKONLINE**, uma aplicação que conecta médicos e pacientes.
 
 ## Montagem do ambiente de desenvolvimento
 
