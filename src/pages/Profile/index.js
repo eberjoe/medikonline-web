@@ -8,31 +8,31 @@ import logoImg from '../../assets/logo.svg';
 import api from '../../services/api';
 
 export default function Profile() {
-    const [incidents, setIncidents] = useState([]);
-    const ongId = localStorage.getItem('ongId');
-    const ongName = localStorage.getItem('ongName');
+    const [appointments, setAppointments] = useState([]);
+    const userId = localStorage.getItem('userId');
+    const userName = localStorage.getItem('userName');
     const history = useHistory();
 
     useEffect(() => {
         api.get('profile', {
             headers: {
-                Authorization: ongId,
+                Authorization: userId,
             }
         }).then(response => {
-            setIncidents(response.data);
+            setAppointments(response.data);
         })
-    }, [ongId]);
+    }, [userId]);
 
     async function handleDeleteIncident(id) {
         try {
-            await api.delete(`incidents/${id}`, {
+            await api.delete(`appointments/${id}`, {
                 headers: {
-                    Authorization: ongId,
+                    Authorization: userId,
                 }
             });
-            setIncidents(incidents.filter(incident => incident.id !== id));
+            setAppointments(appointments.filter(appointment => appointment.id !== id));
         } catch (err) {
-            alert('Erro ao remover caso. Tente novamente.')
+            alert('Erro ao desmarcar. Tente novamente.')
         }
     }
 
@@ -44,29 +44,24 @@ export default function Profile() {
     return (
         <div className="profile-container">
             <header>
-                <img src={logoImg} alt="Be The Hero"/>
-                <span>Bem vinda, {ongName}</span>
-                <Link className="button" to="/incident/new">Cadastrar novo caso</Link>
+                <img src={logoImg} alt="Medikonline"/>
+                <span>Bem vindo(a), {userName}</span>
+                <Link className="button" to="/appointment/new">Marcar consulta</Link>
                 <button onClick={handleLogout} type="button">
-                    <FiPower size={18} color="#e02041" />
+                    <FiPower size={18} color="#6c63ff" />
                 </button>
             </header>
-            <h1>Casos cadastrados</h1>
+            <h1>Consultas marcadas</h1>
             <ul>
-                {incidents.map(incident => (
-                    <li key={incident.id}>
-                        <strong>CASO:</strong>
-                        <p>{incident.title}</p>
+                {appointments.map(appointment => (
+                    <li key={appointment.id}>
+                        <strong>CONSULTA:</strong>
+                        <p>{appointment.date}</p>
     
-                        <strong>DESCRIÇÃO:</strong>
-                        <p>{incident.description}</p>
+                        <strong>MÉDICO:</strong>
+                        <p>{appointment.docId}</p>
     
-                        <strong>VALOR:</strong>
-                        <p>{Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL'})
-                            .format(incident.value)}
-                        </p>
-    
-                        <button onClick={() => handleDeleteIncident(incident.id)} type="button">
+                        <button onClick={() => handleDeleteIncident(appointment.id)} type="button">
                             <FiTrash2 size="20" color="#a8a8b3" />
                         </button>
                     </li>

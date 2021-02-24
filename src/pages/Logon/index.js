@@ -15,8 +15,8 @@ export default function Logon() {
 
         try {
             const response = await api.post('sessions', {id});
-            localStorage.setItem('ongId', id);
-            localStorage.setItem('ongName', response.data.name);
+            localStorage.setItem('userId', id);
+            localStorage.setItem('userName', response.data.name);
             history.push('/profile');
         } catch (err) {
             alert('Falha no logon. Tente novamente.');
@@ -26,9 +26,8 @@ export default function Logon() {
     return (
         <div className="logon-container">
             <section className="form">
-                <img src={logoImg} alt="Be The Hero"/>
+                <img src={logoImg} alt="Be The Hero" />
                 <form onSubmit={handleLogin}>
-                    <h1>Faça seu logon</h1>
                     <input
                         placeholder="Sua ID"
                         value={id}
