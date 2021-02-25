@@ -35,7 +35,7 @@ export default function NewIncident() {
         <div className="new-appointment-container">
             <div className="content">
                 <section>
-                    <img src={logoImg} alt="Be The Hero"/>
+                    <img src={logoImg} alt="Medikonline"/>
                     <h1>Agendar nova consulta</h1>
                     <p>Viva o SUS!</p>
                     <Link className="back-link" to="/profile">
