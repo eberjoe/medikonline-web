@@ -7,19 +7,21 @@ import homeImg from '../../assets/homeimg.svg';
 import api from '../../services/api';
 
 export default function Logon() {
+    const [loading, setLoading] = useState(false);
     const [id, setId] = useState('');
+    const [password, setPassword] = useState('');
     const history = useHistory();
 
     async function handleLogin(e) {
         e.preventDefault();
-
+        setLoading(true);
         try {
-            const response = await api.post('sessions', {id});
+            await api.post('sessions', {id, password});
             localStorage.setItem('userId', id);
-            localStorage.setItem('userName', response.data.name);
             history.push('/profile');
         } catch (err) {
             alert('Falha no logon. Tente novamente.');
+            setLoading(false);
         }
     }
 
@@ -29,18 +31,34 @@ export default function Logon() {
                 <img src={logoImg} alt="Medikonline" />
                 <form onSubmit={handleLogin}>
                     <input
-                        placeholder="Sua ID"
+                        placeholder="Login"
+                        disabled={loading}
                         value={id}
                         onChange={e => setId(e.target.value)}
+                        required
                     />
-                    <button type="submit" className="button">Entrar</button>
+                    <input
+                        placeholder="Senha"
+                        disabled={loading}
+                        type="password"
+                        value={password}
+                        onChange={e => setPassword(e.target.value)}
+                        required
+                    />
+                    <button
+                        className="button"
+                        type="submit"
+                        disabled={loading}
+                    >
+                        Entrar
+                    </button>
                     <Link className="back-link" to="/register">
                         <FiLogIn size={16} color="#6c63ff" />
                         Não tenho cadastro
                     </Link>
                 </form>
             </section>
-            <img src={homeImg} alt="Heroes" />
+            <img src={homeImg} alt="Health personnel" />
         </div>
     );
 }

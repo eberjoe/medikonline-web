@@ -10,10 +10,12 @@ import api from '../../services/api';
 export default function Profile() {
     const [appointments, setAppointments] = useState([]);
     const userId = localStorage.getItem('userId');
-    const userName = localStorage.getItem('userName');
     const history = useHistory();
 
     useEffect(() => {
+        if (!userId) {
+            history.push('/');
+        }
         api.get('profile', {
             headers: {
                 Authorization: userId,
@@ -21,7 +23,7 @@ export default function Profile() {
         }).then(response => {
             setAppointments(response.data);
         })
-    }, [userId]);
+    }, [userId, history]);
 
     async function handleDeleteIncident(id) {
         try {
@@ -45,7 +47,7 @@ export default function Profile() {
         <div className="profile-container">
             <header>
                 <img src={logoImg} alt="Medikonline"/>
-                <span>Bem vindo(a), {userName}</span>
+                <span>Bem vindo(a), {userId}</span>
                 <Link className="button" to="/appointment/new">Marcar consulta</Link>
                 <button onClick={handleLogout} type="button">
                     <FiPower size={18} color="#6c63ff" />
