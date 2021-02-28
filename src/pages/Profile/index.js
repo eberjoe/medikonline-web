@@ -8,10 +8,10 @@ import logoImg from '../../assets/logo.svg';
 import api from '../../services/api';
 
 export default function Profile() {
+    const token = localStorage.getItem('token');
     const [appointments, setAppointments] = useState([]);
     const [user, setUser] = useState();
     const history = useHistory();
-    const token = localStorage.getItem('token');
 
     useEffect(() => {
         if (!token) {
@@ -20,15 +20,17 @@ export default function Profile() {
         }
         api.get('profile', {
             headers: {
-                'x-access-token': token,
+                'x-access-token': token
             }
         }).then(res => {
             setAppointments(res.data.appointments);
             setUser(res.data.user);
-        })
-    }, [token, history]);
+        }).catch(err => {
+            history.push('/');
+        });
+    }, []);
 
-    async function handleDeleteAppointment(id) {
+    const handleDeleteAppointment = async (id) => {
         try {
             await api.delete(`appointments/${id}`, {
                 headers: {
@@ -41,7 +43,7 @@ export default function Profile() {
         }
     }
 
-    function handleLogout() {
+    const handleLogout = () => {
         localStorage.clear();
         history.push('/');
     }

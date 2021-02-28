@@ -1,28 +1,75 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import './styles.css';
 import {Link, useHistory} from 'react-router-dom';
 import logoImg from '../../assets/logo.svg';
-import {FiArrowLeft} from 'react-icons/fi';
+import {FiArrowLeft, FiTarget} from 'react-icons/fi';
 import api from '../../services/api';
+import 'date-fns';
+import DateFnsUtils from '@date-io/date-fns';
+import ptBr from 'date-fns/locale/pt-BR';
+import {
+    MuiPickersUtilsProvider,
+    KeyboardTimePicker,
+    KeyboardDatePicker,
+  } from '@material-ui/pickers';  
 
-export default function NewIncident() {
-    const [date, setDate] = useState('');
+export default function NewAppointment() {
+    const token = localStorage.getItem('token');
+    const [date, setDate] = useState(new Date());
     const [docId, setDocId] = useState('');
-    const userId = localStorage.getItem('userId');
+    const [appointments, setAppointments] = useState([]);
+    const [docs, setDocs] = useState([]);
+    const [docOpts, setDocOpts] = useState([]);
+    const [loading, setLoading] = useState(false);
     const history = useHistory();
 
-    async function handleNewAppointment(e) {
-        e.preventDefault();
+    useEffect(() => {
+        const opts = [];
+        if (!token) {
+            history.push('/');
+            return;
+        }
+        api.get('appointments', {
+            headers: {
+                'x-access-token': token
+            }
+        }).then((res) => {
+            setAppointments(res.data);
+        }).catch(err => {
+            history.push('/');
+            return;
+        });
+        api.get('users/true', {
+            headers: {
+                'x-access-token': token
+            }
+        }).then((res) => {
+            setDocs(res.data);
+            for (let i = 0; i < docs.length; i++) {
+                opts.push(
+                    <option key={docs[i].id} value={docs[i].id}>
+                        {`Dr(a). ${docs[i].id}`}
+                    </option>
+                    );
+            }
+            setDocOpts(opts);
+        }).catch(err => {
+            history.push('/');
+        });
+    }, [docs]);
 
+    const handleNewAppointment = async (e) => {
+        e.preventDefault();
+        setLoading(true);
         const data = {
             date,
-            docId
+            doctor_id: docId
         };
 
         try {
             await api.post('/appointments', data, {
                 headers: {
-                    Authorization: userId,
+                    'x-access-token': token
                 }
             })
             history.push('/profile');
@@ -37,24 +84,52 @@ export default function NewIncident() {
                 <section>
                     <img src={logoImg} alt="Medikonline"/>
                     <h1>Agendar nova consulta</h1>
-                    <p>Viva o SUS!</p>
+                    <p>Aqui você agenda a sua consulta com seu médico de preferência.</p>
                     <Link className="back-link" to="/profile">
                         <FiArrowLeft size={16} color="#6c63ff" />
                         Voltar para home
                     </Link>
                 </section>
                 <form onSubmit={handleNewAppointment}>
-                    <input
-                        placeholder="Data e hora"
-                        value={date}
-                        onChange={e => setDate(e.target.value)}
-                    />
-                    <input
-                        placeholder="Selecione o médico"
-                        value={docId}
+                    <select
+                        disabled={loading}
+                        required
+                        defaultValue=""
                         onChange={e => setDocId(e.target.value)}
-                    />
-                    <button className="button" type="submit">
+                    >
+                        <option value="" disabled hidden>Selecione um médico</option>
+                        {docOpts}
+                    </select>
+                    <MuiPickersUtilsProvider locale={ptBr} utils={DateFnsUtils}>
+                        <KeyboardDatePicker
+                            disabled={loading}
+                            disableToolbar
+                            shouldDisableDate={day => (day.getDay() === 0 || day.getDay() === 6)}
+                            disablePast
+                            margin="normal"
+                            id="date-picker"
+                            label="Data"
+                            format="dd/MM/yyyy"
+                            value={date}
+                            onChange={date => setDate(date)}
+                            KeyboardButtonProps={{
+                                'aria-label': 'alterar data',
+                            }}                            
+                            />
+                        <KeyboardTimePicker
+                            disabled={loading}
+                            disableToolbar
+                            margin="normal"
+                            id="time-picker"
+                            label="Hora"
+                            value={date}
+                            onChange={date => setDate(date)}
+                            KeyboardButtonProps={{
+                            'aria-label': 'alterar hora',
+                            }}                            
+                        />
+                    </MuiPickersUtilsProvider>
+                    <button className="button" type="submit" disabled={loading}>
                         Marcar
                     </button>
                 </form>
