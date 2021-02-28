@@ -16,10 +16,10 @@ export default function Logon() {
         e.preventDefault();
         setLoading(true);
         try {
-            await api.post('sessions', {id, password});
-            localStorage.setItem('userId', id);
-            history.push('/profile');
-        } catch (err) {
+        const res = await api.post('sessions', {id, password});
+        localStorage.setItem('token', await res.data.token);
+        history.push('/profile');
+        } catch(err) {
             alert('Falha no logon. Tente novamente.');
             setLoading(false);
         }

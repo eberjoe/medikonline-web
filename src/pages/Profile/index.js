@@ -9,32 +9,35 @@ import api from '../../services/api';
 
 export default function Profile() {
     const [appointments, setAppointments] = useState([]);
-    const userId = localStorage.getItem('userId');
+    const [user, setUser] = useState();
     const history = useHistory();
+    const token = localStorage.getItem('token');
 
     useEffect(() => {
-        if (!userId) {
+        if (!token) {
             history.push('/');
+            return;
         }
         api.get('profile', {
             headers: {
-                Authorization: userId,
+                'x-access-token': token,
             }
-        }).then(response => {
-            setAppointments(response.data);
+        }).then(res => {
+            setAppointments(res.data.appointments);
+            setUser(res.data.user);
         })
-    }, [userId, history]);
+    }, [token, history]);
 
-    async function handleDeleteIncident(id) {
+    async function handleDeleteAppointment(id) {
         try {
             await api.delete(`appointments/${id}`, {
                 headers: {
-                    Authorization: userId,
+                    'x-access-token': token,
                 }
             });
             setAppointments(appointments.filter(appointment => appointment.id !== id));
-        } catch (err) {
-            alert('Erro ao desmarcar. Tente novamente.')
+        } catch(err) {
+            alert('Erro ao cancelar. Tente novamente.')
         }
     }
 
@@ -47,7 +50,11 @@ export default function Profile() {
         <div className="profile-container">
             <header>
                 <img src={logoImg} alt="Medikonline"/>
-                <span>Bem vindo(a), {userId}</span>
+                <span>Bem vindo(a), {
+                !!user && user.crm ?
+                'Dr(a). ' :
+                'Sr(a). ' 
+                }{!!user && user.id}</span>
                 <Link className="button" to="/appointment/new">Marcar consulta</Link>
                 <button onClick={handleLogout} type="button">
                     <FiPower size={18} color="#6c63ff" />
@@ -63,7 +70,7 @@ export default function Profile() {
                         <strong>MÉDICO:</strong>
                         <p>{appointment.docId}</p>
     
-                        <button onClick={() => handleDeleteIncident(appointment.id)} type="button">
+                        <button onClick={() => handleDeleteAppointment(appointment.id)} type="button">
                             <FiTrash2 size="20" color="#a8a8b3" />
                         </button>
                     </li>
