@@ -1,8 +1,8 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import './styles.css';
 import {Link, useHistory} from 'react-router-dom';
 import logoImg from '../../assets/logo.svg';
-import {FiArrowLeft, FiTarget} from 'react-icons/fi';
+import { FiArrowLeft } from 'react-icons/fi';
 import api from '../../services/api';
 import 'date-fns';
 import DateFnsUtils from '@date-io/date-fns';
@@ -25,6 +25,7 @@ export default function NewAppointment() {
 
     useEffect(() => {
         const opts = [];
+        let mounted = true;
         if (!token) {
             history.push('/');
             return;
@@ -44,20 +45,26 @@ export default function NewAppointment() {
                 'x-access-token': token
             }
         }).then((res) => {
-            setDocs(res.data);
-            for (let i = 0; i < docs.length; i++) {
-                opts.push(
-                    <option key={docs[i].id} value={docs[i].id}>
-                        {`Dr(a). ${docs[i].id}`}
-                    </option>
-                    );
+            if (mounted) {
+                setDocs(res.data);
+                for (let i = 0; i < docs.length; i++) {
+                    opts.push(
+                        <option key={docs[i].id} value={docs[i].id}>
+                            {`Dr(a). ${docs[i].id}`}
+                        </option>
+                        );
+                    }
+                setDocOpts(opts);
             }
-            setDocOpts(opts);
         }).catch(err => {
             history.push('/');
         });
+        return () => {
+            mounted = false;
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [docs]);
-
+    
     const handleNewAppointment = async (e) => {
         e.preventDefault();
         setLoading(true);

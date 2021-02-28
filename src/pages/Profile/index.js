@@ -28,6 +28,7 @@ export default function Profile() {
         }).catch(err => {
             history.push('/');
         });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const handleDeleteAppointment = async (id) => {
