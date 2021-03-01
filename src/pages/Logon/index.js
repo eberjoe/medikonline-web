@@ -12,7 +12,7 @@ const Logon = () => {
     const [password, setPassword] = useState('');
     const history = useHistory();
 
-    async function handleLogin(e) {
+    const handleLogin = async e => {
         e.preventDefault();
         setLoading(true);
         try {
@@ -28,7 +28,7 @@ const Logon = () => {
     return (
         <div className="logon-container">
             <section className="form">
-                <img src={logoImg} alt="Medikonline" />
+                <img src={ logoImg } alt="Medikonline" />
                 <form onSubmit={handleLogin}>
                     <input
                         placeholder="Login"

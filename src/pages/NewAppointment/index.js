@@ -16,7 +16,8 @@ import {
 const NewAppointment = () => {
     const token = localStorage.getItem('token');
     const [date, setDate] = useState(new Date());
-    const [docId, setDocId] = useState('');
+    const [interlocutorId, setInterlocutorId] = useState('');
+    const [user, setUser] = useState();
     const [appointments, setAppointments] = useState([]);
     const [docs, setDocs] = useState([]);
     const [docOpts, setDocOpts] = useState([]);
@@ -34,30 +35,40 @@ const NewAppointment = () => {
             headers: {
                 'x-access-token': token
             }
-        }).then((res) => {
-            setAppointments(res.data);
+        }).then(res => {
+            if (mounted) setAppointments(res.data);
         }).catch(err => {
-            history.push('/');
+            history.push('/profile');
             return;
-        });
-        api.get('users/true', {
+        })
+        api.get('profile', {
             headers: {
                 'x-access-token': token
             }
-        }).then((res) => {
+        }).then(res => {
+            if (mounted) setUser(res.data.user);
+        }).catch(err => {
+            history.push('/profile');
+            return;
+        });
+        api.get(`users/${!!user && !!user.crm ? false : true}`, {
+            headers: {
+                'x-access-token': token
+            }
+        }).then(res => {
             if (mounted) {
                 setDocs(res.data);
                 for (let i = 0; i < docs.length; i++) {
                     opts.push(
                         <option key={docs[i].id} value={docs[i].id}>
-                            {`Dr(a). ${docs[i].id}`}
+                            {docs[i].id}
                         </option>
                         );
                     }
                 setDocOpts(opts);
             }
         }).catch(err => {
-            history.push('/');
+            history.push('/profile');
         });
         return () => {
             mounted = false;
@@ -70,7 +81,8 @@ const NewAppointment = () => {
         setLoading(true);
         const data = {
             date,
-            doctor_id: docId
+            doctor_id: !!user && !!user.crm ? user.id : interlocutorId,
+            patient_id: !!user && !!user.crm ? interlocutorId : user.id
         };
 
         try {
@@ -102,9 +114,9 @@ const NewAppointment = () => {
                         disabled={loading}
                         required
                         defaultValue=""
-                        onChange={e => setDocId(e.target.value)}
+                        onChange={e => setInterlocutorId(e.target.value)}
                     >
-                        <option value="" disabled hidden>Selecione um médico</option>
+                        <option value="" disabled hidden>Selecione um {!!user && !!user.crm ? 'paciente' : 'médico'}</option>
                         {docOpts}
                     </select>
                     <MuiPickersUtilsProvider locale={ptBr} utils={DateFnsUtils}>
