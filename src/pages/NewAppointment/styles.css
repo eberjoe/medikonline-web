@@ -43,6 +43,15 @@
 }
 
 .new-appointment-container .content form textarea,
-.new-appointment-container .content form input, select {
+.new-appointment-container .content form input, select, label {
     margin-top: 8px;
+}
+
+.new-appointment-container .content .selection {
+    display: flex;
+    align-items: center;
+}
+
+.new-appointment-container .content .selection label {
+    margin-right: 12px;
 }

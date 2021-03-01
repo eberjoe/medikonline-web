@@ -32,7 +32,7 @@ const Profile = () => {
     }, []);
 
     const handleDeleteAppointment = async id => {
-        if (window.confirm('Tem certeza que quer desmarcar a consulta?')) {
+        if (window.confirm('Tem certeza que deseja desmarcar a consulta?')) {
             try {
                 await api.delete(`appointments/${id}`, {
                     headers: {
@@ -60,7 +60,7 @@ const Profile = () => {
                 'Dr(a). ' :
                 'Sr(a). ' 
                 }{!!user && user.id}</span>
-                <Link className="button" to="/appointment/new">Marcar consulta</Link>
+                <Link className="button" to="/appointment/new">Agendar consulta</Link>
                 <button onClick={handleLogout} type="button">
                     <FiPower size={18} color="#6c63ff" />
                 </button>

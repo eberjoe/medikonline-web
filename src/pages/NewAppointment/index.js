@@ -5,10 +5,7 @@ import logoImg from '../../assets/logo.svg';
 import { FiArrowLeft } from 'react-icons/fi';
 import api from '../../services/api';
 import 'date-fns';
-import DateFnsUtils from '@date-io/date-fns';
-import ptBr from 'date-fns/locale/pt-BR';
 import {
-    MuiPickersUtilsProvider,
     KeyboardTimePicker,
     KeyboardDatePicker,
   } from '@material-ui/pickers';  
@@ -110,46 +107,47 @@ const NewAppointment = () => {
                     </Link>
                 </section>
                 <form onSubmit={handleNewAppointment}>
-                    <select
+                    <div className="selection">
+                        <label style={{ display: !!user && user.crm ? 'none' : 'flex' }}>Dr(a).</label>
+                        <select
+                            disabled={loading}
+                            required
+                            defaultValue=""
+                            onChange={e => setInterlocutorId(e.target.value)}
+                        >
+                            <option value="" disabled hidden>Selecione um {!!user && !!user.crm ? 'paciente' : 'médico'}</option>
+                            {docOpts}
+                        </select>
+                    </div>
+                    <KeyboardDatePicker
                         disabled={loading}
-                        required
-                        defaultValue=""
-                        onChange={e => setInterlocutorId(e.target.value)}
-                    >
-                        <option value="" disabled hidden>Selecione um {!!user && !!user.crm ? 'paciente' : 'médico'}</option>
-                        {docOpts}
-                    </select>
-                    <MuiPickersUtilsProvider locale={ptBr} utils={DateFnsUtils}>
-                        <KeyboardDatePicker
-                            disabled={loading}
-                            disableToolbar
-                            shouldDisableDate={day => (day.getDay() === 0 || day.getDay() === 6)}
-                            disablePast
-                            margin="normal"
-                            id="date-picker"
-                            label="Data"
-                            format="dd/MM/yyyy"
-                            value={date}
-                            onChange={date => setDate(date)}
-                            KeyboardButtonProps={{
-                                'aria-label': 'alterar data',
-                            }}                            
-                            />
-                        <KeyboardTimePicker
-                            disabled={loading}
-                            disableToolbar
-                            margin="normal"
-                            id="time-picker"
-                            label="Hora"
-                            value={date}
-                            onChange={date => setDate(date)}
-                            KeyboardButtonProps={{
-                            'aria-label': 'alterar hora',
-                            }}                            
+                        disableToolbar
+                        shouldDisableDate={day => (day.getDay() === 0 || day.getDay() === 6)}
+                        disablePast
+                        margin="normal"
+                        id="date-picker"
+                        label="Data"
+                        format="dd/MM/yyyy"
+                        value={date}
+                        onChange={date => setDate(date)}
+                        KeyboardButtonProps={{
+                            'aria-label': 'alterar data',
+                        }}                            
                         />
-                    </MuiPickersUtilsProvider>
+                    <KeyboardTimePicker
+                        disabled={loading}
+                        disablePast
+                        margin="normal"
+                        id="time-picker"
+                        label="Hora"
+                        value={date}
+                        onChange={date => setDate(date)}
+                        KeyboardButtonProps={{
+                        'aria-label': 'alterar hora',
+                        }}                            
+                    />
                     <button className="button" type="submit" disabled={loading}>
-                        Marcar
+                        Agendar
                     </button>
                 </form>
             </div>
