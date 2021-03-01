@@ -17,7 +17,7 @@ const Register = () => {
     const handleRegister = async (e) => {
         e.preventDefault();
         setLoading(true);
-        const taken = await api.get(`users/${id}`);
+        const taken = await api.get(`logincheck/${id}`);
         if (password !== passwordConfirm) {
             alert('Erro na confirmação de senha!');
             setLoading(false);
@@ -37,8 +37,8 @@ const Register = () => {
         };
         
         try {
-            const response = await api.post('users', data);
-            alert(`Usuário ${response.data.id} registrado com sucesso!`);
+            const res = await api.post('users', data);
+            alert(`Usuário ${res.data.id} registrado com sucesso!`);
             history.push('/');
         } catch (err) {
             alert(`Erro no cadastro. Tente novamente.`)
