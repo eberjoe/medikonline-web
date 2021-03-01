@@ -1,11 +1,11 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import './styles.css';
-import {Link, useHistory} from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import logoImg from '../../assets/logo.svg';
-import {FiArrowLeft} from 'react-icons/fi'
+import { FiArrowLeft } from 'react-icons/fi'
 import api from '../../services/api';
 
-export default function Register() {
+const Register = () => {
     const [id, setId] = useState('');
     const [password, setPassword] = useState('');
     const [passwordConfirm, setPasswordConfirm] = useState('');
@@ -14,7 +14,7 @@ export default function Register() {
 
     const history = useHistory();
 
-    async function handleRegister(e) {
+    const handleRegister = async (e) => {
         e.preventDefault();
         setLoading(true);
         const taken = await api.get(`users/${id}`);
@@ -50,7 +50,7 @@ export default function Register() {
         <div className="register-container">
             <div className="content">
                 <section>
-                    <img src={logoImg} alt="Medikonline"/>
+                    <img src={ logoImg } alt="Medikonline"/>
                     <h1>Cadastro</h1>
                     <p>Faça seu cadastro e entre na plataforma de telemedicina.</p>
                     <Link className="back-link" to="/">
@@ -95,4 +95,6 @@ export default function Register() {
             </div>
         </div>
     );
-}
+};
+
+export default Register;

@@ -1,12 +1,12 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import './styles.css';
-import {FiLogIn} from 'react-icons/fi';
-import {Link, useHistory} from 'react-router-dom';
+import { FiLogIn } from 'react-icons/fi';
+import { Link, useHistory } from 'react-router-dom';
 import logoImg from '../../assets/logo.svg';
 import homeImg from '../../assets/homeimg.svg';
 import api from '../../services/api';
 
-export default function Logon() {
+const Logon = () => {
     const [loading, setLoading] = useState(false);
     const [id, setId] = useState('');
     const [password, setPassword] = useState('');
@@ -16,7 +16,7 @@ export default function Logon() {
         e.preventDefault();
         setLoading(true);
         try {
-        const res = await api.post('sessions', {id, password});
+        const res = await api.post('sessions', { id, password });
         localStorage.setItem('token', await res.data.token);
         history.push('/profile');
         } catch(err) {
@@ -61,4 +61,6 @@ export default function Logon() {
             <img src={homeImg} alt="Health personnel" />
         </div>
     );
-}
+};
+
+export default Logon;

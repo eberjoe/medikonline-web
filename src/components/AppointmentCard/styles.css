@@ -1,0 +1,35 @@
+.appointment-card {
+  background: #FFF;
+  padding: 24px;
+  border-radius: 8px;
+  position: relative;
+}
+
+.appointment-card button {
+  position: absolute;
+  right: 24px;
+  top: 24px;
+  border: 0;
+  transition: opacity 0.3s;
+}
+
+.appointment-card button:hover {
+  opacity: 0.8;
+}
+
+
+.appointment-card strong {
+  display: block;
+  margin-bottom: 16px;
+  color: #41414d;
+}
+
+.appointment-card strong + strong {
+  margin-top: 32px;
+}
+
+.appointment-card p {
+  color: #737380;
+  line-height: 21px;
+  font-size: 16px;
+}

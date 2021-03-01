@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './styles.css';
-import {Link, useHistory} from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import logoImg from '../../assets/logo.svg';
 import { FiArrowLeft } from 'react-icons/fi';
 import api from '../../services/api';
@@ -13,7 +13,7 @@ import {
     KeyboardDatePicker,
   } from '@material-ui/pickers';  
 
-export default function NewAppointment() {
+const NewAppointment = () => {
     const token = localStorage.getItem('token');
     const [date, setDate] = useState(new Date());
     const [docId, setDocId] = useState('');
@@ -89,7 +89,7 @@ export default function NewAppointment() {
         <div className="new-appointment-container">
             <div className="content">
                 <section>
-                    <img src={logoImg} alt="Medikonline"/>
+                    <img src={ logoImg } alt="Medikonline"/>
                     <h1>Agendar nova consulta</h1>
                     <p>Aqui você agenda a sua consulta com seu médico de preferência.</p>
                     <Link className="back-link" to="/profile">
@@ -144,4 +144,6 @@ export default function NewAppointment() {
         </div>
 
     );
-}
+};
+
+export default NewAppointment;

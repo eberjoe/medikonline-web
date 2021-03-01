@@ -1,13 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import {Link, useHistory} from 'react-router-dom';
 import {FiPower} from 'react-icons/fi';
-import {FiTrash2} from 'react-icons/fi';
 import './styles.css';
 
+import AppointmentCard from '../../components/AppointmentCard';
 import logoImg from '../../assets/logo.svg';
 import api from '../../services/api';
 
-export default function Profile() {
+const Profile = () => {
     const token = localStorage.getItem('token');
     const [appointments, setAppointments] = useState([]);
     const [user, setUser] = useState();
@@ -31,19 +31,21 @@ export default function Profile() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const handleDeleteAppointment = async (id) => {
-        try {
-            await api.delete(`appointments/${id}`, {
-                headers: {
-                    'x-access-token': token,
-                }
-            });
-            setAppointments(appointments.filter(appointment => appointment.id !== id));
-        } catch(err) {
-            alert('Erro ao cancelar. Tente novamente.')
+    const handleDeleteAppointment = async id => {
+        if (window.confirm('Tem certeza que quer desmarcar a consulta?')) {
+            try {
+                await api.delete(`appointments/${id}`, {
+                    headers: {
+                        'x-access-token': token,
+                    }
+                });
+                setAppointments(appointments.filter(appointment => appointment.id !== id));
+            } catch(err) {
+                alert('Erro ao cancelar. Tente novamente.');
+            }
         }
     }
-
+    
     const handleLogout = () => {
         localStorage.clear();
         history.push('/');
@@ -52,7 +54,7 @@ export default function Profile() {
     return (
         <div className="profile-container">
             <header>
-                <img src={logoImg} alt="Medikonline"/>
+                <img src={ logoImg } alt="Medikonline"/>
                 <span>Bem vindo(a), {
                 !!user && user.crm ?
                 'Dr(a). ' :
@@ -63,22 +65,22 @@ export default function Profile() {
                     <FiPower size={18} color="#6c63ff" />
                 </button>
             </header>
-            <h1>Consultas marcadas</h1>
+            <h1>Consultas</h1>
             <ul>
                 {appointments.map(appointment => (
                     <li key={appointment.id}>
-                        <strong>CONSULTA:</strong>
-                        <p>{appointment.date}</p>
-    
-                        <strong>MÉDICO:</strong>
-                        <p>{appointment.docId}</p>
-    
-                        <button onClick={() => handleDeleteAppointment(appointment.id)} type="button">
-                            <FiTrash2 size="20" color="#a8a8b3" />
-                        </button>
+                        <AppointmentCard
+                            id={appointment.id}
+                            interlocutorRole={!!user && !!user.crm ? "paciente" : "profissional"}
+                            interlocutorId={!!user && !!user.crm ? appointment.patient_id : appointment.doctor_id}
+                            date={appointment.date}
+                            handleDelete={handleDeleteAppointment}
+                        />
                     </li>
                 ))}
             </ul>
         </div>
     );
-}
+};
+
+export default Profile;
