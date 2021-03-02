@@ -22,7 +22,7 @@ const AppointmentCard = ({
     <strong>{`${interlocutorRole.toUpperCase()}:`}</strong>
     <p>{interlocutorId}</p>
     <button onClick={() => handleDelete(id)} type="button">
-        <FiTrash2 size="20" color="#a8a8b3" />
+      <FiTrash2 size="20" color="#a8a8b3" />
     </button>
   </div>
   );

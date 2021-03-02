@@ -8,79 +8,79 @@ import logoImg from '../../assets/logo.svg';
 import api from '../../services/api';
 
 const Profile = () => {
-    const token = localStorage.getItem('token');
-    const [appointments, setAppointments] = useState([]);
-    const [user, setUser] = useState();
-    const history = useHistory();
+  const token = localStorage.getItem('token');
+  const [appointments, setAppointments] = useState([]);
+  const [user, setUser] = useState();
+  const history = useHistory();
 
-    useEffect(() => {
-        if (!token) {
-            history.push('/');
-            return;
-        }
-        api.get('profile', {
-            headers: {
-                'x-access-token': token
-            }
-        }).then(res => {
-            setAppointments(res.data.appointments);
-            setUser(res.data.user);
-        }).catch(err => {
-            history.push('/');
-        });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-
-    const handleDeleteAppointment = async id => {
-        if (window.confirm('Tem certeza que deseja desmarcar a consulta?')) {
-            try {
-                await api.delete(`appointments/${id}`, {
-                    headers: {
-                        'x-access-token': token,
-                    }
-                });
-                setAppointments(appointments.filter(appointment => appointment.id !== id));
-            } catch(err) {
-                alert('Erro ao cancelar. Tente novamente.');
-            }
-        }
-    }
-    
-    const handleLogout = () => {
-        localStorage.clear();
+  useEffect(() => {
+    if (!token) {
         history.push('/');
+        return;
     }
+    api.get('profile', {
+        headers: {
+            'x-access-token': token
+        }
+    }).then(res => {
+        setAppointments(res.data.appointments);
+        setUser(res.data.user);
+    }).catch(err => {
+        history.push('/');
+    });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-    return (
-        <div className="profile-container">
-            <header>
-                <img src={ logoImg } alt="Medikonline"/>
-                <span>Bem vindo(a), {
-                !!user && user.crm ?
-                'Dr(a). ' :
-                'Sr(a). ' 
-                }{!!user && user.id}</span>
-                <Link className="button" to="/appointment/new">Agendar consulta</Link>
-                <button onClick={handleLogout} type="button">
-                    <FiPower size={18} color="#6c63ff" />
-                </button>
-            </header>
-            <h1>Consultas</h1>
-            <ul>
-                {appointments.map(appointment => (
-                    <li key={appointment.id}>
-                        <AppointmentCard
-                            id={appointment.id}
-                            interlocutorRole={!!user && !!user.crm ? "paciente" : "profissional"}
-                            interlocutorId={!!user && !!user.crm ? appointment.patient_id : appointment.doctor_id}
-                            date={appointment.date}
-                            handleDelete={handleDeleteAppointment}
-                        />
-                    </li>
-                ))}
-            </ul>
-        </div>
-    );
+  const handleDeleteAppointment = async id => {
+    if (window.confirm('Tem certeza que deseja desmarcar a consulta?')) {
+      try {
+        await api.delete(`appointments/${id}`, {
+          headers: {
+            'x-access-token': token,
+          }
+        });
+        setAppointments(appointments.filter(appointment => appointment.id !== id));
+      } catch(err) {
+        alert('Erro ao cancelar. Tente novamente.');
+      }
+    }
+  }
+  
+  const handleLogout = () => {
+    localStorage.clear();
+    history.push('/');
+  }
+
+  return (
+    <div className="profile-container">
+      <header>
+        <img src={ logoImg } alt="Medikonline"/>
+        <span>Bem vindo(a), {
+        !!user && user.crm ?
+        'Dr(a). ' :
+        'Sr(a). ' 
+        }{!!user && user.id}</span>
+        <Link className="button" to="/appointment/new">Agendar consulta</Link>
+        <button onClick={handleLogout} type="button">
+          <FiPower size={18} color="#6c63ff" />
+        </button>
+      </header>
+      <h1>Suas consultas</h1>
+      <ul>
+        {appointments.map(appointment => (
+          <li key={appointment.id}>
+            <AppointmentCard
+              id={appointment.id}
+              interlocutorRole={!!user && !!user.crm ? "paciente" : "profissional"}
+              interlocutorId={!!user && !!user.crm ? appointment.patient_id : appointment.doctor_id}
+              date={appointment.date}
+              handleDelete={handleDeleteAppointment}
+            />
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
 };
 
 export default Profile;

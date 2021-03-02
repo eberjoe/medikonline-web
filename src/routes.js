@@ -7,14 +7,14 @@ import Profile from './pages/Profile';
 import NewAppointment from './pages/NewAppointment';
 
 export default function Routes() {
-    return (
-        <BrowserRouter>
-            <Switch>
-                <Route path="/" exact component={Logon} />
-                <Route path="/register" component={Register} />
-                <Route path="/profile" component={Profile} />
-                <Route path="/appointment/new" component={NewAppointment} />
-            </Switch>
-        </BrowserRouter>
-    );
+  return (
+    <BrowserRouter>
+      <Switch>
+        <Route path="/" exact component={Logon} />
+        <Route path="/register" component={Register} />
+        <Route path="/profile" component={Profile} />
+        <Route path="/appointment/new" component={NewAppointment} />
+      </Switch>
+    </BrowserRouter>
+  );
 }
