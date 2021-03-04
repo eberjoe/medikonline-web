@@ -1,6 +1,7 @@
 # Web client do projeto MEDIKONLINE
 
-Este repositório contém a parte do *web client* em **ReactJS** para o projeto **MEDIKONLINE**, uma aplicação que conecta médicos e pacientes.
+Este repositório contém a parte do *web client* em **ReactJS** para o projeto **MEDIKONLINE**, uma aplicação que conecta médicos e pacientes. Acesse o *backend* aqui:
+https://github.com/eberjoe/medikonline-core
 
 ## Montagem do ambiente de desenvolvimento
 
