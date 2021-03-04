@@ -43,16 +43,19 @@ const AppointmentCard = ({
       setCountdown(format(now, 'HH:mm:ss'));
     }, 1000);
     return () => clearInterval(intervalId);
-  }, [AppointmentDate, state]);
+  }, [AppointmentDate, clock, state]);
 
   return (
   <div className="appointment-card" style={{
       background: backgroundColor[state],
       cursor: state === AppointmentState.ONGOING ? 'pointer' : 'arrow'
-    }}
-  >
+  }}>
     <strong>{formatRelative(AppointmentDate, new Date(), {locale: pt}).toUpperCase()}</strong>
-    <p>{countdown}</p>
+    <p style={{
+      visibility: isAfter(new Date(), addHours(AppointmentDate, -24)) && state !== AppointmentState.PAST ? 'visible' : 'hidden'
+    }}>
+      {countdown}
+    </p>
     <strong>{`${interlocutorRole.toUpperCase()}:`}</strong>
     <p>{interlocutorId}</p>
     <button onClick={() => handleDelete(id)} type="button">
