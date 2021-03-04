@@ -15,7 +15,6 @@ const NewAppointment = () => {
   const [date, setDate] = useState(new Date());
   const [interlocutorId, setInterlocutorId] = useState('');
   const [user, setUser] = useState();
-  const [appointments, setAppointments] = useState([]);
   const [docs, setDocs] = useState([]);
   const [docOpts, setDocOpts] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -28,16 +27,6 @@ const NewAppointment = () => {
       history.push('/');
       return;
     }
-    api.get('appointments', {
-      headers: {
-        'x-access-token': token
-      }
-    }).then(res => {
-      if (mounted) setAppointments(res.data);
-    }).catch(err => {
-      history.push('/profile');
-      return;
-    })
     api.get('profile', {
       headers: {
         'x-access-token': token
