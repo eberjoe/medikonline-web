@@ -77,7 +77,7 @@ const Profile = () => {
               handleDelete={handleDeleteAppointment}
             />
           </li>
-        ))}
+        )).reverse()}
       </ul>
     </div>
   );

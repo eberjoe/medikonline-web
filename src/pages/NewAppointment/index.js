@@ -130,7 +130,10 @@ const NewAppointment = () => {
               id="time-picker"
               label="Hora"
               value={date}
-              onChange={date => setDate(date)}
+              onChange={date => {
+                date.setSeconds(0);
+                setDate(date);
+              }}
               KeyboardButtonProps={{
               'aria-label': 'alterar hora',
               }}                            
