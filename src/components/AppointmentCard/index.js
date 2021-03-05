@@ -11,8 +11,8 @@ import {
   format
 } from 'date-fns';
 import { pt } from 'date-fns/locale';
-import './styles.css';
 import { AppointmentState } from '../../enums/AppointmentState';
+import './styles.css';
 
 const AppointmentCard = ({
   id,
@@ -67,7 +67,7 @@ const AppointmentCard = ({
     </p>
     <strong>{`${interlocutorRole.toUpperCase()}:`}</strong>
     <p>{interlocutorId}</p>
-    <button onClick={() => handleDelete(id)} type="button">
+    <button onClick={() => handleDelete(id)} type="button" style={{ display: state === AppointmentState.ONGOING ? 'none' : 'block' }}>
       <FiTrash2 size="20" style={{ background: backgroundColor[state] }} />
     </button>
   </div>

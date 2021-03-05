@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './styles.css';
 import { Link, useHistory } from 'react-router-dom';
-import logoImg from '../../assets/logo.svg';
+import scheduleImg from '../../assets/scheduleimg.svg';
 import { FiArrowLeft } from 'react-icons/fi';
 import api from '../../services/api';
 import 'date-fns';
@@ -10,18 +10,18 @@ import {
   KeyboardDatePicker,
 } from '@material-ui/pickers';  
 
+import Header from '../../components/Header';
+
 const NewAppointment = () => {
   const token = localStorage.getItem('token');
   const [date, setDate] = useState(new Date());
   const [interlocutorId, setInterlocutorId] = useState('');
   const [user, setUser] = useState();
-  const [docs, setDocs] = useState([]);
   const [docOpts, setDocOpts] = useState([]);
   const [loading, setLoading] = useState(false);
   const history = useHistory();
-
+  
   useEffect(() => {
-    const opts = [];
     let mounted = true;
     if (!token) {
       history.push('/');
@@ -34,7 +34,7 @@ const NewAppointment = () => {
     }).then(res => {
       if (mounted) setUser(res.data.user);
     }).catch(err => {
-      history.push('/profile');
+      history.push('/appointments');
       return;
     });
     api.get(`users/${!!user && !!user.crm ? false : true}`, {
@@ -43,24 +43,20 @@ const NewAppointment = () => {
       }
     }).then(res => {
       if (mounted) {
-        setDocs(res.data);
-        for (let i = 0; i < docs.length; i++) {
-          opts.push(
-            <option key={docs[i].id} value={docs[i].id}>
-              {docs[i].id}
-            </option>
-            );
-          }
-        setDocOpts(opts);
+        setDocOpts(res.data.map(u => (
+          <option key={u.id} value={u.id}>
+            {u.id}
+          </option>
+    )));
       }
     }).catch(err => {
-      history.push('/profile');
+      history.push('/appointments');
     });
     return () => {
       mounted = false;
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [docs]);
+  }, []);
   
   const handleNewAppointment = async (e) => {
     e.preventDefault();
@@ -77,20 +73,24 @@ const NewAppointment = () => {
           'x-access-token': token
         }
       })
-      history.push('/profile');
+      history.push('/appointments');
     } catch (err) {
       alert('Erro ao agendar consulta. Tente novamente.');
     }
   }
 
   return (
-    <div className="new-appointment-container">
+    <>
+      <Header
+        headerMessage={`${!!user && !!user.crm ? 'Dr(a).' : 'Sr(a).'} ${localStorage.getItem('userId')}`}
+      />
+      <div className="new-appointment-container">
         <div className="content">
           <section>
-            <img src={ logoImg } alt="Medikonline"/>
+            <img src={scheduleImg} alt="Medikonline"/>
             <h1>Agendar nova consulta</h1>
-            <p>Aqui você agenda a sua consulta com seu médico de preferência.</p>
-            <Link className="back-link" to="/profile">
+            <p>Aqui você agenda a sua consulta com seu {!!user && !!user.crm ? 'paciente' : 'médico de preferência'}.</p>
+            <Link className="back-link" to="/appointments">
               <FiArrowLeft size={16} color="#6c63ff" />
               Voltar para home
             </Link>
@@ -110,6 +110,7 @@ const NewAppointment = () => {
             </div>
             <KeyboardDatePicker
               disabled={loading}
+              variant="inline"
               disableToolbar
               shouldDisableDate={day => (day.getDay() === 0 || day.getDay() === 6)}
               disablePast
@@ -125,6 +126,7 @@ const NewAppointment = () => {
               />
             <KeyboardTimePicker
               disabled={loading}
+              variant="inline"
               disablePast
               margin="normal"
               id="time-picker"
@@ -144,7 +146,7 @@ const NewAppointment = () => {
           </form>
         </div>
       </div>
-
+    </>
   );
 };
 

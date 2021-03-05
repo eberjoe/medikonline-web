@@ -18,7 +18,8 @@ const Logon = () => {
     try {
     const res = await api.post('sessions', { id, password });
     localStorage.setItem('token', await res.data.token);
-    history.push('/profile');
+    localStorage.setItem('userId', id);
+    history.push('/appointments');
     } catch(err) {
       alert('Falha no logon. Tente novamente.');
       setLoading(false);
