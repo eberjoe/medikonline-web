@@ -32,25 +32,26 @@ const NewAppointment = () => {
         'x-access-token': token
       }
     }).then(res => {
-      if (mounted) setUser(res.data.user);
-    }).catch(err => {
-      history.push('/appointments');
-      return;
-    });
-    api.get(`users/${!!user && !!user.crm ? false : true}`, {
-      headers: {
-        'x-access-token': token
-      }
-    }).then(res => {
       if (mounted) {
-        setDocOpts(res.data.map(u => (
-          <option key={u.id} value={u.id}>
-            {u.id}
-          </option>
-    )));
+        setUser(res.data.user);
       }
+      api.get(`users/${!!res.data.user && !!res.data.user.crm ? false : true}`, {
+        headers: {
+          'x-access-token': token
+        }
+      }).then(res => {
+        if (mounted) {
+          setDocOpts(res.data.map(u => (
+            <option key={u.id} value={u.id}>
+              {u.id}
+            </option>
+      )));
+        }
+      }).catch(err => {
+        history.push('/appointments');
+      });
     }).catch(err => {
-      history.push('/appointments');
+    history.push('/appointments');
     });
     return () => {
       mounted = false;
