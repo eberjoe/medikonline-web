@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import { FiTrash2 } from 'react-icons/fi';
 import {
   parseISO,
@@ -24,6 +25,7 @@ const AppointmentCard = ({
   const [state, setState] = useState(AppointmentState.UPCOMING);
   const [clock, setClock] = useState(0);
   const [countdown, setCountdown] = useState();
+  const history = useHistory();
   const backgroundColor = ['#fff', '#edffec', '#b3b3abaa'];
 
   useEffect(() => {
@@ -45,8 +47,15 @@ const AppointmentCard = ({
     return () => clearInterval(intervalId);
   }, [AppointmentDate, clock, state]);
 
+  const handleClick = () => {
+    if (state === AppointmentState.ONGOING) {
+      sessionStorage.setItem('interlocutorId', interlocutorId);
+      history.push('/conversation');
+    }
+  }  
+
   return (
-  <div className="appointment-card" style={{
+  <div className="appointment-card" onClick={handleClick} style={{
       background: backgroundColor[state],
       cursor: state === AppointmentState.ONGOING ? 'pointer' : 'arrow'
   }}>

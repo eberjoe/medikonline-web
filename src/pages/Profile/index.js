@@ -48,6 +48,7 @@ const Profile = () => {
   
   const handleLogout = () => {
     localStorage.clear();
+    sessionStorage.clear();
     history.push('/');
   }
 
