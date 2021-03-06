@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { FiTrash2 } from 'react-icons/fi';
+import Skeleton from '@material-ui/lab/Skeleton';
 import {
   parseISO,
   formatRelative,
@@ -54,23 +55,33 @@ const AppointmentCard = ({
     }
   }  
 
-  return (
-  <div className="appointment-card" onClick={handleClick} style={{
-      background: backgroundColor[state],
-      cursor: state === AppointmentState.ONGOING ? 'pointer' : 'arrow'
-  }}>
-    <strong>{formatRelative(AppointmentDate, new Date(), {locale: pt}).toUpperCase()}</strong>
-    <p style={{
-      visibility: isAfter(new Date(), addHours(AppointmentDate, -24)) && state !== AppointmentState.PAST ? 'visible' : 'hidden'
+  return (countdown ?
+    <div className="appointment-card" onClick={handleClick} style={{
+        background: backgroundColor[state],
+        cursor: state === AppointmentState.ONGOING ? 'pointer' : 'arrow'
     }}>
-      {countdown}
-    </p>
-    <strong>{`${interlocutorRole.toUpperCase()}:`}</strong>
-    <p>{interlocutorId}</p>
-    <button onClick={() => handleDelete(id)} type="button" style={{ display: state === AppointmentState.ONGOING ? 'none' : 'block' }}>
-      <FiTrash2 size="20" style={{ background: backgroundColor[state] }} />
-    </button>
-  </div>
+      <strong>{formatRelative(AppointmentDate, new Date(), {locale: pt}).toUpperCase()}</strong>
+      <p style={{
+        visibility: isAfter(new Date(), addHours(AppointmentDate, -24)) && state !== AppointmentState.PAST ? 'visible' : 'hidden'
+      }}>
+        {countdown}
+      </p>
+      <strong>{`${interlocutorRole.toUpperCase()}:`}</strong>
+      <p>{interlocutorId}</p>
+      <button onClick={() => handleDelete(id)} type="button" style={{ display: state === AppointmentState.ONGOING ? 'none' : 'block' }}>
+        <FiTrash2 size="20" style={{ background: backgroundColor[state] }} />
+      </button>
+    </div>
+    :
+    <div className="appointment-card" style={{
+      background: backgroundColor[state],
+    }}>
+    <Skeleton variant="text" height={23} />
+    <Skeleton variant="text" height={23} width={60} />
+    <Skeleton variant="text" heigth={23} />
+    <Skeleton variant="text" height={23} />
+    <Skeleton variant="text" height={23} />
+    </div>
   );
 };
 
