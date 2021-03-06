@@ -7,6 +7,7 @@ import './styles.css'
 // eslint-disable-next-line
 const Header = ({ headerMessage, optionalLink = <a/> }) => {
   const history = useHistory();
+
   const handleLogout = () => {
     localStorage.clear();
     sessionStorage.clear();
@@ -14,16 +15,14 @@ const Header = ({ headerMessage, optionalLink = <a/> }) => {
   }
 
   return (
-    <div className="header-container">
-      <header>
+    <header className="header-container">
       <img src={logoImg} alt="Medikonline"/>
       <span>{headerMessage}</span>
       {optionalLink}
       <button onClick={handleLogout} type="button">
         <FiPower size={18} color="#6c63ff" />
       </button>
-      </header>
-    </div>
+    </header>
   )
 };
 

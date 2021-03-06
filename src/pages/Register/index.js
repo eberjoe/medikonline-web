@@ -14,7 +14,7 @@ const Register = () => {
 
   const history = useHistory();
 
-  const handleRegister = async (e) => {
+  const handleRegister = async e => {
     e.preventDefault();
     setLoading(true);
     const taken = await api.get(`logincheck/${id}`);

@@ -3,29 +3,26 @@
   max-width: 1180px;
   padding: 0 30px;
   margin: 32px auto;
-}
-
-.header-container header {
   display: flex;
   align-items: center;
 }
 
-.header-container header span {
+.header-container span {
   font-size: 20px;
   margin-left: 100px;
 }
 
-.header-container header img {
+.header-container img {
   height: 64px;
 }
 
-.header-container header a {
+.header-container a {
   width: 260px;
   margin-left: auto;
   margin-top: 0;
 }
 
-.header-container header button {
+.header-container button {
   height: 60px;
   width: 60px;
   border-radius: 4px;
@@ -35,6 +32,6 @@
   transition: border-color 0.3s;
 }
 
-.header-container header button:hover {
+.header-container button:hover {
   border-color: #999;
 }

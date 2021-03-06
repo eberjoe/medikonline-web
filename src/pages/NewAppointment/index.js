@@ -59,7 +59,7 @@ const NewAppointment = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   
-  const handleNewAppointment = async (e) => {
+  const handleNewAppointment = async e => {
     e.preventDefault();
     setLoading(true);
     const data = {
@@ -88,7 +88,7 @@ const NewAppointment = () => {
       <div className="new-appointment-container">
         <div className="content">
           <section>
-            <img src={scheduleImg} alt="Medikonline"/>
+            <img src={scheduleImg} alt="Woman checking her schedule"/>
             <h1>Agendar nova consulta</h1>
             <p>Aqui você agenda a sua consulta com seu {!!user && !!user.crm ? 'paciente' : 'médico de preferência'}.</p>
             <Link className="back-link" to="/appointments">
