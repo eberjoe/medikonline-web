@@ -3,9 +3,11 @@ import { useHistory, Link } from 'react-router-dom';
 import api from '../../services/api';
 import { format } from 'date-fns';
 import { FiSend, FiArrowLeft } from 'react-icons/fi';
+import socketIOClient from 'socket.io-client';
 import './styles.css';
-
 import Header from '../../components/Header';
+
+const ENDPOINT = 'http://127.0.0.1:3333';
 
 const Conversation = () => {
   const history = useHistory();
@@ -32,6 +34,7 @@ const Conversation = () => {
 
   useEffect(() => {
     let mounted = true;
+    const socket = socketIOClient(ENDPOINT);
     if (!token) {
       history.push('/');
       return;
@@ -41,7 +44,16 @@ const Conversation = () => {
         'x-access-token': token
       }
     }).then(res => {
-      if (mounted) setUser(res.data.user);
+      if (mounted) {
+        setUser(res.data.user);
+        socket.emit('join', {
+          userId: res.data.user.id,
+          appointmentId: sessionStorage.getItem('appointmentId')
+        });
+        socket.on('message', message => {
+          console.log(message);
+        });
+      }
     }).catch(err => {
       history.push('/appointments');
       return;
