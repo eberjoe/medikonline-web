@@ -17,7 +17,7 @@ const NewAppointment = () => {
   const [date, setDate] = useState(new Date());
   const [interlocutorId, setInterlocutorId] = useState('');
   const [user, setUser] = useState();
-  const [docOpts, setDocOpts] = useState([]);
+  const [selectOpts, setSelectOpts] = useState([]);
   const [loading, setLoading] = useState(false);
   const history = useHistory();
   
@@ -41,7 +41,7 @@ const NewAppointment = () => {
         }
       }).then(res => {
         if (mounted) {
-          setDocOpts(res.data.map(u => (
+          setSelectOpts(res.data.map(u => (
             <option key={u.id} value={u.id}>
               {u.id}
             </option>
@@ -106,7 +106,7 @@ const NewAppointment = () => {
                 onChange={e => setInterlocutorId(e.target.value)}
               >
                 <option value="" disabled hidden>Selecione um {!!user && !!user.crm ? 'paciente' : 'médico'}</option>
-                {docOpts}
+                {selectOpts}
               </select>
             </div>
             <KeyboardDatePicker
