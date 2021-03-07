@@ -51,6 +51,7 @@ const AppointmentCard = ({
   const handleClick = () => {
     if (state === AppointmentState.ONGOING) {
       sessionStorage.setItem('interlocutorId', interlocutorId);
+      sessionStorage.setItem('appointmentId', id);
       history.push('/conversation');
     }
   }  
@@ -79,7 +80,7 @@ const AppointmentCard = ({
     <Skeleton variant="text" height={23} />
     <Skeleton variant="text" height={23} width={60} />
     <Skeleton variant="text" heigth={23} />
-    <Skeleton variant="text" height={23} />
+    <Skeleton variant="text" height={23} width={100} />
     <Skeleton variant="text" height={23} />
     </div>
   );
