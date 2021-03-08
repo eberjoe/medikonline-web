@@ -5,7 +5,9 @@ import { format, parseISO } from 'date-fns';
 import { FiSend, FiArrowLeft } from 'react-icons/fi';
 import socketIOClient from 'socket.io-client';
 import './styles.css';
+
 import Header from '../../components/Header';
+import SpeechBalloon from '../../components/SpeechBalloon';
 
 const SOCKET_ENDPOINT='http://localhost:3333';
 const socket = socketIOClient(SOCKET_ENDPOINT);
@@ -61,10 +63,12 @@ const Conversation = () => {
     socket.on('message', ({ senderId, tMessage, timestamp }) => {
       const convo = messages;
       convo.push(
-        <p key={messages.length} style={{
-          color: localStorage.getItem('userId') === senderId ? 'blue' : 'red'
-          }}>{`${format(parseISO(timestamp), 'HH:mm:ss')}> ${tMessage}`}
-        </p>
+        <SpeechBalloon
+          key={messages.length}
+          isSelfSpeech={localStorage.getItem('userId') === senderId}
+          timestamp={format(parseISO(timestamp), "HH:mm:ss")}
+          content={tMessage}
+        />
       );
       setMessages(convo);
       setMessageCount(messages.length);

@@ -1,0 +1,27 @@
+.container {
+  display: inline;
+  width: 100%;
+  padding-bottom: 15px;
+}
+
+.container .balloon {
+  display: flex;
+  padding: 5px;
+  margin: 5px;
+  flex-direction: column;
+  border-radius: 10px;
+  width: fit-content;
+  clear: both;
+}
+
+.container .balloon .timestamp {
+  background: inherit;
+  padding: 2px;
+  font-size: 10px;
+}
+
+.container .balloon .content {
+  background: inherit;
+  font-size: 16px;
+  padding: 5px;
+}
