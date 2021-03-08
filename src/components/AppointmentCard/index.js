@@ -27,14 +27,14 @@ const AppointmentCard = ({
   const [clock, setClock] = useState(0);
   const [countdown, setCountdown] = useState();
   const history = useHistory();
-  const backgroundColor = ['#fff', '#edffec', '#b3b3abaa'];
+  const backgroundColor = ['#fff', '#8cfff7', '#b3b3abaa'];
 
   useEffect(() => {
     const intervalId = setInterval(() => {
       const now = new Date();
       if (!isBefore(now, AppointmentDate) && !isAfter(now, addHours(AppointmentDate, 1))) {
-        setState(AppointmentState.ONGOING);
         setClock(differenceInSeconds(addHours(AppointmentDate, 1), now))
+        setState(AppointmentState.ONGOING);
       } else if (isAfter(now, AppointmentDate)) {
         setState(AppointmentState.PAST);
       } else {
@@ -45,7 +45,9 @@ const AppointmentCard = ({
       now.setSeconds(clock - Math.floor(clock / 60) * 60);
       setCountdown(format(now, 'HH:mm:ss'));
     }, 1000);
-    return () => clearInterval(intervalId);
+    return () => {
+      clearInterval(intervalId);
+    }
   }, [AppointmentDate, clock, state]);
 
   const handleClick = () => {

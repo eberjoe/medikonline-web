@@ -1,40 +1,41 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useHistory, Link } from 'react-router-dom';
 import api from '../../services/api';
-import { format } from 'date-fns';
+import { format, parseISO } from 'date-fns';
 import { FiSend, FiArrowLeft } from 'react-icons/fi';
 import socketIOClient from 'socket.io-client';
 import './styles.css';
 import Header from '../../components/Header';
 
-const ENDPOINT = 'http://127.0.0.1:3333';
+const SOCKET_ENDPOINT='http://localhost:3333';
+const socket = socketIOClient(SOCKET_ENDPOINT);
 
 const Conversation = () => {
   const history = useHistory();
   const token = localStorage.getItem('token');
   const [user, setUser] = useState();
   const [loading, setLoading] = useState(false);
+  const [occupancy, setOccupancy] = useState(0);
   const [message, setMessage] = useState('');
-  const [messageKey, setMessageKey] = useState(0);
   const [messages, setMessages] = useState([]);
-  const convoRef = useRef();
+  const [messageCount, setMessageCount] = useState(0);
+  const convoRef = useRef(null);
+  const msgRef = useRef(null);
   
   const handleNewMessage = async e => {
     e.preventDefault();
     setLoading(true);
-    const convo = messages;
-    convo.push(
-      <p key={messageKey} style={{ color: 'blue' }}>{`${format( new Date(), 'HH:mm:ss')}> ${message}`}</p>
-    );
-    setMessageKey(messageKey + 1);
-    setMessages(convo);
     setMessage('');
+    await socket.emit('chatMessage', {
+      senderId: localStorage.getItem('userId'),
+      msg: message
+    });
     setLoading(false);
+    msgRef.current.focus();
   }
 
   useEffect(() => {
     let mounted = true;
-    const socket = socketIOClient(ENDPOINT);
     if (!token) {
       history.push('/');
       return;
@@ -46,21 +47,40 @@ const Conversation = () => {
     }).then(res => {
       if (mounted) {
         setUser(res.data.user);
-        socket.emit('join', {
-          userId: res.data.user.id,
-          appointmentId: sessionStorage.getItem('appointmentId')
-        });
-        socket.on('message', message => {
-          console.log(message);
-        });
       }
     }).catch(err => {
       history.push('/appointments');
-      return;
     });
+    socket.emit('join', {
+      id: localStorage.getItem('userId'),
+      appointmentId: sessionStorage.getItem('appointmentId')
+    });
+    socket.on('movement', occupants => {
+      setOccupancy(occupants.length);
+    });
+    socket.on('message', ({ senderId, tMessage, timestamp }) => {
+      const convo = messages;
+      convo.push(
+        <p key={messages.length} style={{
+          color: localStorage.getItem('userId') === senderId ? 'blue' : 'red'
+          }}>{`${format(parseISO(timestamp), 'HH:mm:ss')}> ${tMessage}`}
+        </p>
+      );
+      setMessages(convo);
+      setMessageCount(messages.length);
+    });
+    return () => {
+      mounted = false;
+      socket.emit('leave', localStorage.getItem('userId'));
+      socket.disconnect();
+      window.location.reload();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  
+  useEffect(() => {
     convoRef.current.scrollTop = convoRef.current.scrollHeight;
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [messageKey]);
+  }, [messageCount]);
 
   return (
     <>
@@ -74,12 +94,13 @@ const Conversation = () => {
         <div className="content">
           <form onSubmit={handleNewMessage}>
             <input
-              disabled={loading}
-              placeholder="Digite uma mensagem"
-              value={message}
+              ref={msgRef}
+              disabled={loading || occupancy < 2}
+              placeholder={occupancy > 1 ? 'Digite uma mensagem' : `Aguarde o seu ${!!user && user.crm ? 'paciente' : 'médico'} entrar...`}
+              value={occupancy > 1 ? message : ''}
               onChange={e => setMessage(e.target.value)}
             />
-            <button className="button" type="submit" disabled={loading}>
+            <button className="button" type="submit" disabled={loading || occupancy < 2}>
               <FiSend size={22} />
             </button>
             <Link className="back-link" to="/appointments">
@@ -90,7 +111,7 @@ const Conversation = () => {
           <div
             className="convo"
             ref={convoRef}
-            style={{ background: loading ? '#f0f0f5' : '#fff' }}
+            style={{ background: loading || occupancy < 2 ? '#f0f0f5' : '#fff' }}
           >
            {messages}
           </div>

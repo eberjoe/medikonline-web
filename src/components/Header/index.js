@@ -2,15 +2,21 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import logoImg from '../../assets/logo.svg';
 import {FiPower} from 'react-icons/fi';
+import socketIOClient from 'socket.io-client';
 import './styles.css'
+
+const SOCKET_ENDPOINT='http://localhost:3333';
+const socket = socketIOClient(SOCKET_ENDPOINT);
 
 // eslint-disable-next-line
 const Header = ({ headerMessage, optionalLink = <a/> }) => {
   const history = useHistory();
 
   const handleLogout = () => {
+    socket.emit('leave', localStorage.getItem('userId'));
     localStorage.clear();
     sessionStorage.clear();
+    socket.disconnect();
     history.push('/');
   }
 
