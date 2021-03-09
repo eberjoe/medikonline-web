@@ -1,7 +1,7 @@
 import React from 'react';
 import './styles.css';
 
-const SpeechBalloon = ({ isBroadcast = false, isSelfSpeech, timestamp, content }) => {
+const SpeechBalloon = ({ isBroadcast = false, isSelfSpeech, timestamp, content, senderId }) => {
   
   return (
     <div className="container">
@@ -9,8 +9,8 @@ const SpeechBalloon = ({ isBroadcast = false, isSelfSpeech, timestamp, content }
         background: isBroadcast ? 'lightgrey' : isSelfSpeech ? '#dfa' : '#0ffa',
         float: isSelfSpeech ? 'left' : 'right'
       }}>
+        <label className="timestamp">{timestamp} {isBroadcast ? `${senderId} emitiu um aviso geral` : `${senderId} escreveu`}</label>
         <label className="content">{content}</label>
-        <label className="timestamp">{timestamp} {isBroadcast && 'mensagem publicitária'}</label>
       </div>
     </div>
   )

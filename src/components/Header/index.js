@@ -13,16 +13,21 @@ import HeaderButton from './HeaderButton';
 const Header = ({ headerMessage, optionalLink = <a/> }) => {
   const history = useHistory();
 
-  const handleBroadcast = () => {
-    const broadcastMessage = window.prompt('Digite sua mensagem de broadcast');
-    console.log(broadcastMessage);
+  const handleBroadcast = async () => {
+    const broadcastMessage = window.prompt('Digite um pedido de socorro');
+    if(broadcastMessage) {
+      await socket.emit('broadcastMessage', {
+        senderId: localStorage.getItem('userId'),
+        msg: broadcastMessage
+      });
+    }
   }
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     socket.emit('leave', localStorage.getItem('userId'));
     localStorage.clear();
     sessionStorage.clear();
-    socket.disconnect();
+    await socket.disconnect();
     history.push('/');
   }
 

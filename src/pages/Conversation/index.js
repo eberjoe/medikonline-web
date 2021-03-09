@@ -58,19 +58,22 @@ const Conversation = () => {
     socket.on('movement', occupants => {
       setOccupancy(occupants.length);
     });
-    socket.on('message', ({ senderId, tMessage, timestamp }) => {
+    socket.on('message', ({ senderId, tMessage, timestamp, isBroadcast }) => {
       const convo = messages;
       convo.push(
         <SpeechBalloon
           key={messages.length}
+          isBroadcast={isBroadcast}
           isSelfSpeech={localStorage.getItem('userId') === senderId}
           timestamp={format(parseISO(timestamp), "HH:mm:ss")}
           content={tMessage}
+          senderId={senderId}
         />
       );
       setMessages(convo);
       setMessageCount(messages.length);
     });
+
     return () => {
       mounted = false;
       socket.emit('leave', localStorage.getItem('userId'));
