@@ -1,16 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useHistory, Link } from 'react-router-dom';
-import api from '../../services/api';
 import { format, parseISO } from 'date-fns';
 import { FiSend, FiArrowLeft } from 'react-icons/fi';
-import socketIOClient from 'socket.io-client';
 import './styles.css';
+
+import api from '../../services/api';
+import socket from '../../services/socket';
 
 import Header from '../../components/Header';
 import SpeechBalloon from '../../components/SpeechBalloon';
-
-const SOCKET_ENDPOINT='http://localhost:3333';
-const socket = socketIOClient(SOCKET_ENDPOINT);
 
 const Conversation = () => {
   const history = useHistory();
