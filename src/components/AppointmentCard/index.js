@@ -25,6 +25,7 @@ const AppointmentCard = ({
   interlocutorRole,
   interlocutorId,
   date,
+  handleUpdate,
   handleDelete
 }) => {
   const AppointmentDate = parseISO(date);
@@ -32,7 +33,7 @@ const AppointmentCard = ({
   const [clock, setClock] = useState(0);
   const [countdown, setCountdown] = useState();
   const [openModal, setOpenModal] = useState(false);
-  const [modalDate, setModalDate] = useState(new Date());
+  const [modalDate, setModalDate] = useState();
   const [loading, setLoading] = useState(false);
   const history = useHistory();
   const backgroundColor = ['#fff', '#8cfff7', '#b3b3abaa'];
@@ -66,10 +67,15 @@ const AppointmentCard = ({
     }
   };
 
+  const handleOpenModal = () => {
+    setOpenModal(true);
+    setModalDate(new Date());
+  }
+
   const handleSubmitEdit = async e => {
     e.preventDefault();
     setLoading(true);
-    /* */
+    await handleUpdate(id, modalDate);
     setOpenModal(false);
     setLoading(false);
   }
@@ -128,7 +134,7 @@ const AppointmentCard = ({
         <button onClick={() => handleDelete(id)} type="button">
           <FiTrash2 size="18" />
         </button>
-        <button onClick={() => {setOpenModal(true)}} type="button">
+        <button onClick={handleOpenModal} type="button">
           <FiEdit2 size="18" />
         </button>
       </div>
