@@ -30,8 +30,9 @@
 }
 
 .conversation-container .content form button {
-  width: 30%;
+  width: 20%;
   padding-top: 5px;
+  margin: 16px 0;
 }
 
 .conversation-container .content .convo {

@@ -116,7 +116,6 @@ const NewAppointment = () => {
               shouldDisableDate={day => (day.getDay() === 0 || day.getDay() === 6)}
               disablePast
               margin="normal"
-              id="date-picker"
               label="Data"
               format="dd/MM/yyyy"
               value={date}
@@ -130,7 +129,6 @@ const NewAppointment = () => {
               variant="inline"
               disablePast
               margin="normal"
-              id="time-picker"
               label="Hora"
               value={date}
               onChange={date => {

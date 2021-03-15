@@ -16,3 +16,8 @@
   grid-gap: 24px;
   list-style: none;
 }
+
+.button {
+  margin: 0 16px;
+  min-width: 180px;
+}

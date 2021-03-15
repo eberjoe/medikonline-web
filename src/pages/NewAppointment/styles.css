@@ -58,3 +58,7 @@
 .new-appointment-container .content .selection label {
   margin-right: 12px;
 }
+
+.new-appointment-container .content form .button {
+  margin: 16px 0;
+}

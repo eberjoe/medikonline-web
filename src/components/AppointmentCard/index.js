@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import { FiTrash2 } from 'react-icons/fi';
+import { FiTrash2, FiEdit2 } from 'react-icons/fi';
+import Modal from '@material-ui/core/Modal';
 import Skeleton from '@material-ui/lab/Skeleton';
+import {
+  KeyboardTimePicker,
+  KeyboardDatePicker,
+} from '@material-ui/pickers';  
 import {
   parseISO,
   formatRelative,
@@ -26,6 +31,9 @@ const AppointmentCard = ({
   const [state, setState] = useState(AppointmentState.UPCOMING);
   const [clock, setClock] = useState(0);
   const [countdown, setCountdown] = useState();
+  const [openModal, setOpenModal] = useState(false);
+  const [modalDate, setModalDate] = useState(new Date());
+  const [loading, setLoading] = useState(false);
   const history = useHistory();
   const backgroundColor = ['#fff', '#8cfff7', '#b3b3abaa'];
 
@@ -56,24 +64,87 @@ const AppointmentCard = ({
       sessionStorage.setItem('appointmentId', id);
       history.push('/conversation');
     }
-  }  
+  };
+
+  const handleSubmitEdit = async e => {
+    e.preventDefault();
+    setLoading(true);
+    /* */
+    setOpenModal(false);
+    setLoading(false);
+  }
+
+  const modalBody = (
+    <div className="modal">
+      <div>
+        <h2>Alterando agendamento com {interlocutorId}</h2>
+      </div>
+      <form>
+        <div className="body">
+          <KeyboardDatePicker
+            disabled={loading}
+            variant="inline"
+            disablePast
+            disableToolbar
+            margin="normal"
+            label="Data"
+            format="dd/MM/yyyy"
+            value={modalDate}
+            onChange={d => setModalDate(d)}
+            KeyboardButtonProps={{
+              'aria-label': 'alterar data',
+            }}                            
+          />
+          <KeyboardTimePicker
+            disabled={loading}
+            variant="inline"
+            disablePast
+            margin="normal"
+            label="Hora"
+            value={modalDate}
+            onChange={d => {
+              d.setSeconds(0);
+              setModalDate(d);
+            }}
+            KeyboardButtonProps={{
+            'aria-label': 'alterar hora',
+            }}                            
+          />
+        </div>
+        <footer className="footer">
+          <button className="button" type="submit" disabled={loading}>OK</button>
+          <button className="button" onClick={() => {setOpenModal(false)}} style={{ background: 'darkgrey', color: 'black' }}>Cancelar</button>
+        </footer>
+      </form>
+    </div>
+  );
 
   return (countdown ?
     <div className="appointment-card" onClick={handleClick} style={{
         background: backgroundColor[state],
         cursor: state === AppointmentState.ONGOING ? 'pointer' : 'arrow'
     }}>
-      <strong>{formatRelative(AppointmentDate, new Date(), {locale: pt}).toUpperCase()}</strong>
-      <p style={{
-        visibility: isAfter(new Date(), addHours(AppointmentDate, -24)) && state !== AppointmentState.PAST ? 'visible' : 'hidden'
-      }}>
-        {countdown}
-      </p>
-      <strong>{`${interlocutorRole.toUpperCase()}:`}</strong>
-      <p>{interlocutorId}</p>
-      <button onClick={() => handleDelete(id)} type="button" style={{ display: state === AppointmentState.ONGOING ? 'none' : 'block' }}>
-        <FiTrash2 size="20" style={{ background: backgroundColor[state] }} />
-      </button>
+      <div className="control-panel" style={{ display: state === AppointmentState.ONGOING ? 'none' : 'block' }}>
+        <button onClick={() => handleDelete(id)} type="button">
+          <FiTrash2 size="18" />
+        </button>
+        <button onClick={() => {setOpenModal(true)}} type="button">
+          <FiEdit2 size="18" />
+        </button>
+      </div>
+      <div className="main">
+        <strong>{formatRelative(AppointmentDate, new Date(), {locale: pt}).toUpperCase()}</strong>
+        <p style={{
+          visibility: isAfter(new Date(), addHours(AppointmentDate, -24)) && state !== AppointmentState.PAST ? 'visible' : 'hidden'
+        }}>
+          {countdown}
+        </p>
+        <strong>{`${interlocutorRole.toUpperCase()}:`}</strong>
+        <p>{interlocutorId}</p>
+      </div>
+      <Modal open={openModal} onSubmit={handleSubmitEdit}>
+        {modalBody}
+      </Modal>
     </div>
     :
     <div className="appointment-card" style={{

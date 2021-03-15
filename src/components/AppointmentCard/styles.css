@@ -4,18 +4,29 @@
   position: relative;
 }
 
-.appointment-card button {
+.appointment-card .main strong{
+  padding-right: 30px;
+}
+
+.control-panel {
   position: absolute;
-  margin: 0;
+  right: 5px;
+  top: 20px;
+}
+
+.appointment-card .control-panel button {
+  display: block;
+  border: none;
+  background: transparent;
   padding: 0;
-  right: 24px;
-  top: 24px;
-  border: 0;
+  margin: 5px 0;
+  height: 20px;
+  width: auto;
   transition: opacity 0.3s;
 }
 
-.appointment-card button:hover {
-  opacity: 0.8;
+.appointment-card .control-panel button:hover {
+  opacity: 0.5;
 }
 
 
@@ -24,10 +35,41 @@
   color: #41414d;
 }
 
-
 .appointment-card p {
   color: #737380;
   margin-bottom: 16px;
   line-height: 21px;
+  font-size: 16px;
+}
+
+.modal {
+  position: absolute;
+  border-style: double;
+  border-radius: 3px;
+  width: auto;
+  height: auto;
+  background: #f7f7f7;
+  left: 50%;
+  top: 50%;
+  margin-left: -250px;
+  margin-top: -250px;
+}
+.modal h2 {
+  margin:20px;
+}
+
+.modal .body {
+  display: flex;
+  margin: 20px;
+  flex-direction: column;
+}
+
+.modal .button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: auto;
+  height: 40px;
+  margin: 20px;
   font-size: 16px;
 }

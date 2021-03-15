@@ -14,7 +14,7 @@ const Header = ({ headerMessage, optionalLink = <a/> }) => {
   const history = useHistory();
 
   const handleBroadcast = async () => {
-    const broadcastMessage = window.prompt('Digite um pedido de socorro');
+    const broadcastMessage = window.prompt('Emita um aviso geral');
     if(broadcastMessage) {
       await socket.emit('broadcastMessage', {
         senderId: localStorage.getItem('userId'),

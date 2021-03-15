@@ -45,3 +45,7 @@
 .register-container .content form input {
   margin-top: 8px;
 }
+
+.register-container .content form .button {
+  margin: 16px 0;
+}
