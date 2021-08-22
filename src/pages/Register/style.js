@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import media from 'styled-media-query';
 
 export const RegistrationContainer = styled.div`
   display: flex;
@@ -24,6 +25,10 @@ export const RegistrationContainer = styled.div`
       margin: 64px 0 32px;
       font-size: 32px;
     };
+    
+    ${media.lessThan('medium')`
+      display: none;
+    `}
   };
   form {
     width: 100%;
@@ -35,4 +40,28 @@ export const RegistrationContainer = styled.div`
       margin: 16px 0;
     };
   };
+
+  ${media.lessThan('medium')`
+    height: 80vh;
+    justify-content: center;
+    padding: 50px;
+  `}
+`;
+
+export const MobileLogo = styled.div`
+  display: flex;
+  justify-content: center;
+  ${media.greaterThan('medium')`
+    display: none;
+  `}
+`;
+
+export const MobileFooter = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  height: auto;
+
+  ${media.greaterThan('medium')`
+    display: none;
+  `}
 `;

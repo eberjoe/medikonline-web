@@ -8,5 +8,8 @@ export const ButtonStyled = styled.button`
   background: transparent;
   margin-left: 16px;
   transition: border-color 0.3s;
+  :hover {
+    border: 1px solid black;
+  }
 `;
 

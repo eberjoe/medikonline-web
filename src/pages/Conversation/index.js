@@ -98,7 +98,7 @@ const Conversation = () => {
           <h1>Consulta com {!!user && !!user.crm ? 'Sr(a).' : 'Dr(a).'} {sessionStorage.getItem('interlocutorId')}</h1>
         </div>
         <S.Convo>
-          <form onSubmit={handleNewMessage}>
+          <S.FormStyled onSubmit={handleNewMessage}>
             <input
               ref={msgRef}
               disabled={loading || occupancy < 2}
@@ -109,17 +109,29 @@ const Conversation = () => {
             <button className="button" type="submit" disabled={loading || occupancy < 2}>
               <FiSend size={22} />
             </button>
-            <S.BackLink className="back-link" to="/appointments">
-              <FiArrowLeft size={16} color="#6c63ff" />
-              Sair da consulta
-            </S.BackLink>
-          </form>
+          </S.FormStyled>
           <S.ChatBox
             ref={convoRef}
             bg={loading || occupancy < 2 ? '#f0f0f5' : '#fff' }
           >
            {messages}
           </S.ChatBox>
+          <S.MobileForm onSubmit={handleNewMessage} style={{flexDirection: 'row'}}>
+            <input
+              ref={msgRef}
+              disabled={loading || occupancy < 2}
+              placeholder={occupancy > 1 ? 'Digite uma mensagem' : `Aguarde o seu ${!!user && user.crm ? 'paciente' : 'médico'} entrar...`}
+              value={occupancy > 1 ? message : ''}
+              onChange={e => setMessage(e.target.value)}
+            />
+            <button className="button" type="submit" disabled={loading || occupancy < 2}>
+              <FiSend size={22} />
+            </button>
+          </S.MobileForm>
+          <S.BackLink className="back-link" to="/appointments">
+            <FiArrowLeft size={16} color="#6c63ff" />
+            Sair da consulta
+          </S.BackLink>
         </S.Convo>
       </S.ConvoContainer>
     </>

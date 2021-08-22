@@ -69,7 +69,7 @@ const Appointments = () => {
       <Header
         headerMessage={`Bem vindo(a), ${!!user && user.crm ? 'Dr(a). ' : 'Sr(a). '} ${!!user && user.id}`}
         optionalLink={
-          <Link className="button" to="/appointment/new">Agendar consulta</Link>
+          <Link className="button" to="/appointment/new">Agendar</Link>
         }
       />
       <S.AppoitmentsContainer>

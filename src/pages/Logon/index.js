@@ -60,7 +60,9 @@ const Logon = () => {
           </Link>
         </form>
       </section>
-      <img src={homeImg} alt="Health personnel" />
+      <S.ImgContainer>
+        <img src={homeImg} alt="Health personnel" />
+      </S.ImgContainer>
     </S.LogonContainer>
   );
 };

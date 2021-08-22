@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import media from 'styled-media-query';
 
 export const CardContainer = styled.div`
   padding: 24px;
@@ -11,7 +12,15 @@ export const CardContainer = styled.div`
     margin-bottom: 16px;
     line-height: 21px;
     font-size: 16px;
+
+    ${media.lessThan('medium')`
+      margin-bottom: 5px;
+    `};
   };
+
+  ${media.lessThan('medium')`
+    margin-top: 5px;
+  `};
 `;
 
 export const AppointmentDetails = styled.div`
@@ -53,15 +62,26 @@ export const ModalContent = styled.div`
   h2 {
     margin:20px;
   };
+
+  ${media.lessThan('medium')`
+    width: 70%;
+    top: 15%;
+    left: 15%;
+    margin-left: 0;
+    margin-top: 0;
+  `};
   .button {
     display: inline-flex;
     justify-content: center;
     align-items: center;
-    width: auto;
+    width: 70px;
     height: 40px;
     margin: 20px;
     font-size: 16px;
     padding: 5px;
+    ${media.lessThan('medium')`
+      width: auto;
+    `};
   };
 `;
 

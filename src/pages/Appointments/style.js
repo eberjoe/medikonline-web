@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import media from 'styled-media-query';
 
 export const AppoitmentsContainer = styled.div`
   width: 100%;
@@ -14,5 +15,8 @@ export const AppoitmentsContainer = styled.div`
     grid-template-columns: repeat(3, 1fr);
     grid-gap: 24px;
     list-style: none;
+    ${media.lessThan('medium')`
+      display: block;
+    `};
   };
 `;

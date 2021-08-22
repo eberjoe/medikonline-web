@@ -87,7 +87,7 @@ const NewAppointment = () => {
         headerMessage={`${!!user && !!user.crm ? 'Dr(a).' : 'Sr(a).'} ${localStorage.getItem('userId')}`}
       />
       <S.NewAppointmentContainer>
-          <section>
+          <S.SectionStyled>
             <img src={scheduleImg} alt="Woman checking her schedule"/>
             <h1>Agendar nova consulta</h1>
             <p>Aqui você agenda a sua consulta com seu {!!user && !!user.crm ? 'paciente' : 'médico de preferência'}.</p>
@@ -95,7 +95,7 @@ const NewAppointment = () => {
               <FiArrowLeft size={16} color="#6c63ff" />
               Voltar para home
             </Link>
-          </section>
+          </S.SectionStyled>
           <form onSubmit={handleNewAppointment}>
             <div className="selection">
               <label style={{ display: !!user && user.crm ? 'none' : 'flex' }}>Dr(a).</label>
@@ -144,6 +144,12 @@ const NewAppointment = () => {
             </button>
           </form>
       </S.NewAppointmentContainer>
+      <S.MobileFooter>
+        <Link className="back-link" to="/appointments">
+          <FiArrowLeft size={16} color="#6c63ff" />
+          Voltar para home
+        </Link>
+      </S.MobileFooter>
     </>
   );
 };

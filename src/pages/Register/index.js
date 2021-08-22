@@ -48,51 +48,62 @@ const Register = () => {
   }
 
   return (
-    <S.RegistrationContainer>
-        <section>
-          <img src={ logoImg } alt="Medikonline"/>
-          <h1>Cadastro</h1>
-          <p>Faça seu cadastro e entre na plataforma de telemedicina.</p>
-          <Link className="back-link" to="/">
-            <FiArrowLeft size={16} color="#6c63ff" />
-            Voltar para login
-          </Link>
-        </section>
-        <form onSubmit={handleRegister}>
-          <input
-            placeholder="Login"
-            disabled={loading}
-            value={id}
-            onChange={e => setId(e.target.value)}
-            required
+    <>
+      <S.MobileLogo>
+        <img src={ logoImg } alt="Medikonline"/>
+      </S.MobileLogo>
+      <S.RegistrationContainer>
+          <section>
+            <img src={ logoImg } alt="Medikonline"/>
+            <h1>Cadastro</h1>
+            <p>Faça seu cadastro e entre na plataforma de telemedicina.</p>
+            <Link className="back-link" to="/">
+              <FiArrowLeft size={16} color="#6c63ff" />
+              Voltar para login
+            </Link>
+          </section>
+          <form onSubmit={handleRegister}>
+            <input
+              placeholder="Login"
+              disabled={loading}
+              value={id}
+              onChange={e => setId(e.target.value)}
+              required
+              />
+            <input
+              placeholder="Senha"
+              disabled={loading}
+              type="password"
+              value={password}
+              onChange={e => setPassword(e.target.value)}
+              required
+              />
+            <input
+              placeholder="Confirme sua senha"
+              disabled={loading}
+              type="password"
+              value={passwordConfirm}
+              onChange={e => setPasswordConfirm(e.target.value)}
+              required
+              />
+            <input
+              placeholder="Se médico, entre CRM"
+              disabled={loading}
+              value={crm}
+              onChange={e => setCrm(e.target.value)}    
             />
-          <input
-            placeholder="Senha"
-            disabled={loading}
-            type="password"
-            value={password}
-            onChange={e => setPassword(e.target.value)}
-            required
-            />
-          <input
-            placeholder="Confirme sua senha"
-            disabled={loading}
-            type="password"
-            value={passwordConfirm}
-            onChange={e => setPasswordConfirm(e.target.value)}
-            required
-            />
-          <input
-            placeholder="Se médico, entre CRM"
-            disabled={loading}
-            value={crm}
-            onChange={e => setCrm(e.target.value)}    
-          />
-          <button className="button" type="submit">
-            Cadastrar
-          </button>
-        </form>
-    </S.RegistrationContainer>
+            <button className="button" type="submit">
+              Cadastrar
+            </button>
+          </form>
+      </S.RegistrationContainer>
+      <S.MobileFooter>
+      <Link className="back-link" to="/">
+        <FiArrowLeft size={16} color="#6c63ff" />
+        Voltar para login
+      </Link>
+      </S.MobileFooter>
+    </>
   );
 };
 
