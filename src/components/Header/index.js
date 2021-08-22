@@ -3,7 +3,8 @@ import { useHistory } from 'react-router-dom';
 import logoImg from '../../assets/logo.svg';
 import { FiPower } from 'react-icons/fi';
 import { IoMegaphone } from "react-icons/io5";
-import './styles.css'
+
+import * as S from './style';
 
 import socket from '../../services/socket';
 
@@ -32,13 +33,13 @@ const Header = ({ headerMessage, optionalLink = <a/> }) => {
   }
 
   return (
-    <header className="header-container">
+    <S.HeaderStyled>
       <img src={logoImg} alt="Medikonline"/>
       <span>{headerMessage}</span>
       {optionalLink}
       <HeaderButton icon={<IoMegaphone size={18} color="#6c63ff" />} handleClick={handleBroadcast} />
       <HeaderButton icon={<FiPower size={18} color="#6c63ff" />} handleClick={handleLogout} />
-    </header>
+    </S.HeaderStyled>
   )
 };
 

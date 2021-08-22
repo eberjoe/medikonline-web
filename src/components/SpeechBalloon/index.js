@@ -1,18 +1,19 @@
 import React from 'react';
-import './styles.css';
+
+import * as S from './style';
 
 const SpeechBalloon = ({ isBroadcast = false, isSelfSpeech, timestamp, content, senderId }) => {
   
   return (
-    <div className="container">
-      <div className="balloon" style={{
-        background: isBroadcast ? 'lightgrey' : isSelfSpeech ? '#dfa' : '#0ffa',
-        float: isSelfSpeech ? 'left' : 'right'
-      }}>
-        <label className="timestamp">{timestamp} {isBroadcast ? `${senderId} emitiu um aviso geral` : `${senderId} escreveu`}</label>
-        <label className="content">{content}</label>
-      </div>
-    </div>
+    <S.BalloonRow>
+      <S.BalloonContainer
+        bg={isBroadcast ? 'lightgrey' : isSelfSpeech ? '#dfa' : '#0ffa'}
+        f={isSelfSpeech ? 'left' : 'right'}
+      >
+        <S.Timestamp>{timestamp} {isBroadcast ? `${senderId} emitiu um aviso geral` : `${senderId} escreveu`}</S.Timestamp>
+        <S.Message>{content}</S.Message>
+      </S.BalloonContainer>
+    </S.BalloonRow>
   )
 };
 

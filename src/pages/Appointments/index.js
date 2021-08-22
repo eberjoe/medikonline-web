@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import api from '../../services/api';
 import {Link, useHistory} from 'react-router-dom';
-import './styles.css';
 
 import AppointmentCard from '../../components/AppointmentCard';
 import Header from '../../components/Header';
+
+import * as S from './style';
 
 const Appointments = () => {
   const token = localStorage.getItem('token');
@@ -71,7 +72,7 @@ const Appointments = () => {
           <Link className="button" to="/appointment/new">Agendar consulta</Link>
         }
       />
-      <div className="appointments-container">
+      <S.AppoitmentsContainer>
         <h1>Suas consultas</h1>
         <ul>
           {appointments.map(appointment => (
@@ -87,7 +88,7 @@ const Appointments = () => {
             </li>
           )).reverse()}
         </ul>
-      </div>
+      </S.AppoitmentsContainer>
     </>
   );
 };

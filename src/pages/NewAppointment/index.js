@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import './styles.css';
 import { Link, useHistory } from 'react-router-dom';
 import scheduleImg from '../../assets/scheduleimg.svg';
 import { FiArrowLeft } from 'react-icons/fi';
@@ -11,6 +10,8 @@ import {
 } from '@material-ui/pickers';  
 
 import Header from '../../components/Header';
+
+import * as S from './style';
 
 const NewAppointment = () => {
   const token = localStorage.getItem('token');
@@ -85,8 +86,7 @@ const NewAppointment = () => {
       <Header
         headerMessage={`${!!user && !!user.crm ? 'Dr(a).' : 'Sr(a).'} ${localStorage.getItem('userId')}`}
       />
-      <div className="new-appointment-container">
-        <div className="content">
+      <S.NewAppointmentContainer>
           <section>
             <img src={scheduleImg} alt="Woman checking her schedule"/>
             <h1>Agendar nova consulta</h1>
@@ -143,8 +143,7 @@ const NewAppointment = () => {
               Agendar
             </button>
           </form>
-        </div>
-      </div>
+      </S.NewAppointmentContainer>
     </>
   );
 };

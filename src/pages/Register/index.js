@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import './styles.css';
 import { Link, useHistory } from 'react-router-dom';
 import logoImg from '../../assets/logo.svg';
 import { FiArrowLeft } from 'react-icons/fi'
 import api from '../../services/api';
+
+import * as S from './style';
 
 const Register = () => {
   const [id, setId] = useState('');
@@ -47,8 +48,7 @@ const Register = () => {
   }
 
   return (
-    <div className="register-container">
-      <div className="content">
+    <S.RegistrationContainer>
         <section>
           <img src={ logoImg } alt="Medikonline"/>
           <h1>Cadastro</h1>
@@ -92,8 +92,7 @@ const Register = () => {
             Cadastrar
           </button>
         </form>
-      </div>
-    </div>
+    </S.RegistrationContainer>
   );
 };
 

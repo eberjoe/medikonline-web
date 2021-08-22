@@ -18,7 +18,8 @@ import {
 } from 'date-fns';
 import { pt } from 'date-fns/locale';
 import { AppointmentState } from '../../enums/AppointmentState';
-import './styles.css';
+
+import * as S from './style';
 
 const AppointmentCard = ({
   id,
@@ -81,12 +82,12 @@ const AppointmentCard = ({
   }
 
   const modalBody = (
-    <div className="modal">
+    <S.ModalContent>
       <div>
         <h2>Alterando agendamento com {interlocutorId}</h2>
       </div>
       <form>
-        <div className="body">
+        <S.ModalBody>
           <KeyboardDatePicker
             disabled={loading}
             variant="inline"
@@ -116,29 +117,28 @@ const AppointmentCard = ({
             'aria-label': 'alterar hora',
             }}                            
           />
-        </div>
+        </S.ModalBody>
         <footer className="footer">
           <button className="button" type="submit" disabled={loading}>OK</button>
           <button className="button" onClick={() => {setOpenModal(false)}} style={{ background: 'darkgrey', color: 'black' }}>Cancelar</button>
         </footer>
       </form>
-    </div>
+    </S.ModalContent>
   );
 
   return (countdown ?
-    <div className="appointment-card" onClick={handleClick} style={{
-        background: backgroundColor[state],
-        cursor: state === AppointmentState.ONGOING ? 'pointer' : 'arrow'
-    }}>
-      <div className="control-panel" style={{ display: state === AppointmentState.ONGOING ? 'none' : 'block' }}>
+    <S.CardContainer onClick={handleClick}
+      bg={backgroundColor[state]}
+      c={state === AppointmentState.ONGOING ? 'pointer' : 'arrow'}>
+      <S.ControlPanel style={{ display: state === AppointmentState.ONGOING ? 'none' : 'block' }}>
         <button onClick={() => handleDelete(id)} type="button">
           <FiTrash2 size="18" />
         </button>
         <button onClick={handleOpenModal} type="button">
           <FiEdit2 size="18" />
         </button>
-      </div>
-      <div className="main">
+      </S.ControlPanel>
+      <S.AppointmentDetails>
         <strong>{formatRelative(AppointmentDate, new Date(), {locale: pt}).toUpperCase()}</strong>
         <p style={{
           visibility: isAfter(new Date(), addHours(AppointmentDate, -24)) && state !== AppointmentState.PAST ? 'visible' : 'hidden'
@@ -147,21 +147,19 @@ const AppointmentCard = ({
         </p>
         <strong>{`${interlocutorRole.toUpperCase()}:`}</strong>
         <p>{interlocutorId}</p>
-      </div>
+      </S.AppointmentDetails>
       <Modal open={openModal} onSubmit={handleSubmitEdit}>
         {modalBody}
       </Modal>
-    </div>
+    </S.CardContainer>
     :
-    <div className="appointment-card" style={{
-      background: backgroundColor[state],
-    }}>
+    <S.CardContainer bg={backgroundColor[state]}>
     <Skeleton variant="text" height={23} />
     <Skeleton variant="text" height={23} width={60} />
     <Skeleton variant="text" heigth={23} />
     <Skeleton variant="text" height={23} width={100} />
     <Skeleton variant="text" height={23} />
-    </div>
+    </S.CardContainer>
   );
 };
 

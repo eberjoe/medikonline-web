@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import './styles.css';
 import { FiLogIn } from 'react-icons/fi';
 import { Link, useHistory } from 'react-router-dom';
 import logoImg from '../../assets/logo.svg';
 import homeImg from '../../assets/homeimg.svg';
 import api from '../../services/api';
+
+import * as S from './style';
 
 const Logon = () => {
   const [loading, setLoading] = useState(false);
@@ -27,7 +28,7 @@ const Logon = () => {
   }
 
   return (
-    <div className="logon-container">
+    <S.LogonContainer>
       <section className="form">
         <img src={ logoImg } alt="Medikonline" />
         <form onSubmit={handleLogin}>
@@ -60,7 +61,7 @@ const Logon = () => {
         </form>
       </section>
       <img src={homeImg} alt="Health personnel" />
-    </div>
+    </S.LogonContainer>
   );
 };
 

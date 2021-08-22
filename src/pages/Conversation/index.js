@@ -1,14 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useHistory, Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { format, parseISO } from 'date-fns';
 import { FiSend, FiArrowLeft } from 'react-icons/fi';
-import './styles.css';
 
 import api from '../../services/api';
 import socket from '../../services/socket';
 
 import Header from '../../components/Header';
 import SpeechBalloon from '../../components/SpeechBalloon';
+
+import * as S from './style';
 
 const Conversation = () => {
   const history = useHistory();
@@ -92,11 +93,11 @@ const Conversation = () => {
       <Header
         headerMessage={`${!!user && !!user.crm ? 'Dr(a).' : 'Sr(a).'} ${localStorage.getItem('userId')}`}
       />
-      <div className="conversation-container">
+      <S.ConvoContainer>
         <div>
           <h1>Consulta com {!!user && !!user.crm ? 'Sr(a).' : 'Dr(a).'} {sessionStorage.getItem('interlocutorId')}</h1>
         </div>
-        <div className="content">
+        <S.Convo>
           <form onSubmit={handleNewMessage}>
             <input
               ref={msgRef}
@@ -108,20 +109,19 @@ const Conversation = () => {
             <button className="button" type="submit" disabled={loading || occupancy < 2}>
               <FiSend size={22} />
             </button>
-            <Link className="back-link" to="/appointments">
+            <S.BackLink className="back-link" to="/appointments">
               <FiArrowLeft size={16} color="#6c63ff" />
               Sair da consulta
-            </Link>
+            </S.BackLink>
           </form>
-          <div
-            className="convo"
+          <S.ChatBox
             ref={convoRef}
-            style={{ background: loading || occupancy < 2 ? '#f0f0f5' : '#fff' }}
+            bg={loading || occupancy < 2 ? '#f0f0f5' : '#fff' }
           >
            {messages}
-          </div>
-        </div>
-      </div>
+          </S.ChatBox>
+        </S.Convo>
+      </S.ConvoContainer>
     </>
   )
 };

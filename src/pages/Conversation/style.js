@@ -1,13 +1,20 @@
-.conversation-container {
+import styled from 'styled-components';
+import { Link } from 'react-router-dom';
+
+export const ConvoContainer = styled.div`
   width: 100%;
   max-width: 1120px;
   height: 8vh;
   margin: 0 auto;
   align-items: center;
   justify-content: center;
-}
+  h1 {
+    margin-top: 50px;
+    margin-bottom: 24px;
+  };
+`;
 
-.conversation-container .content {
+export const Convo = styled.div`
   display: flex;
   width: 100%;
   padding: 20px;
@@ -17,25 +24,18 @@
   justify-content: space-between;
   align-items: flex-start;
   position: relative;
-}
+  form {
+    width: 100%;
+    max-width: 300px;
+    button {
+      width: 20%;
+      padding-top: 5px;
+      margin: 16px 0;
+    };
+  };
+`;
 
-.conversation-container h1 {
-  margin-top: 50px;
-  margin-bottom: 24px;
-}
-
-.conversation-container .content form {
-  width: 100%;
-  max-width: 300px;
-}
-
-.conversation-container .content form button {
-  width: 20%;
-  padding-top: 5px;
-  margin: 16px 0;
-}
-
-.conversation-container .content .convo {
+export const ChatBox = styled.div`
   overflow: auto;
   padding: 5px;
   resize: none;
@@ -44,9 +44,10 @@
   height: 445px;
   margin-left: 15px;
   border: 1px solid #dcdce5;
-}
+  background: ${props => props.bg};
+`;
 
-.conversation-container .content .back-link {
+export const BackLink = styled(Link)`
   position: absolute;
   bottom: 15px;
-}
+`;

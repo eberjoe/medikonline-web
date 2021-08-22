@@ -1,9 +1,10 @@
 import React from 'react';
-import './styles.css';
+
+import * as S from './style';
 
 const HeaderButton = ({ icon, handleClick }) => {
 
-  return <button onClick={handleClick}>{icon}</button>
+  return <S.ButtonStyled onClick={handleClick}>{icon}</S.ButtonStyled>
 }
 
 export default HeaderButton;
