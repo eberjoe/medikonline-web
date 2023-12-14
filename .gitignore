@@ -126,6 +126,7 @@ sketch
 node_modules/**/*
 .expo/*
 npm-debug.*
+.env
 *.jks
 *.p8
 *.p12
